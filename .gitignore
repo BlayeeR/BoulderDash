@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs
+/BoulderDash/.vs/BoulderDash/v15/Server/sqlite3
+/BoulderDash/bin/Android/AnyCPU/Debug
+/BoulderDash/obj
+/BoulderDash/BoulderDash.csproj.user
