@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace BoulderDash
 {
@@ -11,6 +12,8 @@ namespace BoulderDash
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D test;
+        Rectangle player;
 
         public Game1()
         {
@@ -31,8 +34,7 @@ namespace BoulderDash
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            TouchPanel.EnabledGestures = GestureType.HorizontalDrag | GestureType.VerticalDrag;
             base.Initialize();
         }
 
@@ -44,8 +46,9 @@ namespace BoulderDash
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            test = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            test.SetData<Color>(new Color[] { Color.Black });
+            player = new Rectangle(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width/2-10, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height/2-10, 20, 20);
         }
 
         /// <summary>
@@ -54,6 +57,7 @@ namespace BoulderDash
         /// </summary>
         protected override void UnloadContent()
         {
+
             // TODO: Unload any non ContentManager content here
         }
 
@@ -66,9 +70,28 @@ namespace BoulderDash
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
+            var gesture = default(GestureSample);
 
-            // TODO: Add your update logic here
+            while (TouchPanel.IsGestureAvailable)
+            {
+                gesture = TouchPanel.ReadGesture();
 
+                if (gesture.GestureType == GestureType.VerticalDrag)
+                {
+                    if (gesture.Delta.Y < 0)
+                        player.Offset(0, -1);
+                    if (gesture.Delta.Y > 0)
+                        player.Offset(0, 1);
+                }
+
+                if (gesture.GestureType == GestureType.HorizontalDrag)
+                {
+                    if (gesture.Delta.X < 0)
+                        player.Offset(-1, 0);
+                    if (gesture.Delta.X > 0)
+                        player.Offset(1, 0);
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -80,8 +103,9 @@ namespace BoulderDash
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(test, player, Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
