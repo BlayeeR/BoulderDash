@@ -14,3 +14,7 @@
 /GameData/obj
 /GameData/bin/Debug
 /BoulderDash/Assets/Content
+/BoulderDash/Content/Scenes/TitleScene.xml
+*.spritefont
+/Shared/bin/Debug
+/Shared/obj

@@ -1,5 +1,4 @@
-﻿using Gamedata.ActorComponents;
-using GameData.ActorComponents;
+﻿using GameData.ActorComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,6 +14,8 @@ namespace GameData
         public uint ID;
         public Vector2 Position { get; set; }
         public List<ActorComponent> Components = new List<ActorComponent>();
+        [ContentSerializerIgnore]
+        public Vector2 Size { get { return new Vector2(50); } }
 
         public void Initialize(Game game)
         {

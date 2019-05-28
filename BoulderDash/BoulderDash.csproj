@@ -60,7 +60,6 @@
   <ItemGroup>
     <Compile Include="Activity1.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="InputManager.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -82,7 +81,10 @@
     <AndroidAsset Include="Assets\Content\Textures\Slime.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\Wall.xnb" />
     <AndroidAsset Include="Assets\Content\Actors\Player.xnb" />
+    <AndroidAsset Include="Assets\Content\Fonts\DefaultFont.xnb" />
+    <AndroidAsset Include="Assets\Content\Scenes\TitleScene.xnb" />
     <None Include="Content\Content.mgcb" />
+    <None Include="Content\Fonts\DefaultFont.spritefont" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
@@ -93,6 +95,8 @@
     <AndroidResource Include="Resources\Drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Content\Sprites\" />
+    <Folder Include="Content\Sprites\" />
     <Folder Include="Resources\Layout\" />
   </ItemGroup>
   <ItemGroup>
@@ -111,9 +115,14 @@
       <Project>{91FCD37B-3AC2-4C4C-95FF-4F1BB302A51C}</Project>
       <Name>GameData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{95629a8a-8ce6-4c62-b9a1-aae3bc4aef23}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Actors\Player.xml" />
+    <None Include="Content\Actors\Player.xml" />
+    <None Include="Content\Scenes\TitleScene.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

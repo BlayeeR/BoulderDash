@@ -9,7 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Gamedata.ActorComponents;
+using GameData.ActorComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,7 +26,7 @@ namespace GameData.ActorComponents
         {
             base.Initialize(game, actor);
             actorTexture = game.Content.Load<Texture2D>(ResourcePath);
-            actorRectangle = new Rectangle(Owner.Position.ToPoint(), new Point(100, 100));
+            actorRectangle = new Rectangle(Owner.Position.ToPoint(), Owner.Size.ToPoint());
         }
 
         public override void Update(GameTime gameTime)

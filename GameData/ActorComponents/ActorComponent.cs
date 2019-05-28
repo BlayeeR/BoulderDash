@@ -13,7 +13,7 @@ using GameData;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace Gamedata.ActorComponents
+namespace GameData.ActorComponents
 {
     public abstract class ActorComponent
     {
