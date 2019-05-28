@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GameData.Actor">
+    <Position>50 50</Position>
+    <ID>1</ID>
+    <Components>
+      <Item Type="PlayerComponent"/>
+      <Item Type="RenderableComponent">
+        <ResourcePath>Textures/Player</ResourcePath>
+      </Item>
+    </Components>
+  </Asset>
+</XnaContent>

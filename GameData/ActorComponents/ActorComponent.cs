@@ -9,15 +9,21 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using GameData;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
-namespace BoulderDash.ActorComponents
+namespace Gamedata.ActorComponents
 {
     public abstract class ActorComponent
     {
-        [XmlIgnore]
-        public Actor2D Owner { get; set; }
+        [ContentSerializerIgnore]
+        public Actor Owner { get; private set; }
         public abstract void Update(GameTime gameTime);
+        public virtual void Initialize(Game game, Actor owner)
+        {
+            this.Owner = owner;
+        }
 
     }
 }

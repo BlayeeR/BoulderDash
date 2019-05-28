@@ -10,3 +10,7 @@
 /BoulderDash/Content/bin/Android
 /BoulderDash/Content/obj/Android
 *.png
+*.mgcb
+/GameData/obj
+/GameData/bin/Debug
+/BoulderDash/Assets/Content

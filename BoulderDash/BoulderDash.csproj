@@ -19,7 +19,7 @@
     <AndroidSupportedAbis>armeabi-v7a%3bx86</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions>.m4a</AndroidStoreUncompressedFileExtensions>
     <MandroidI18n />
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <MonoGamePlatform>Android</MonoGamePlatform>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
@@ -59,14 +59,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activity1.cs" />
-    <Compile Include="Actors\Actor2D.cs" />
-    <Compile Include="Actors\ActorComponents\ActorComponent.cs" />
-    <Compile Include="Actors\ActorManager.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="InputManager.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Content\Textures\BeamCorner.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\BeamSide.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Boulder1.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Boulder2.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Boulder3.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Butterfly.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Diamond.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Dirt.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Gate.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Ghost.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Grass.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Lava.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\MagicWall.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Player.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Slime.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Wall.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\Player.xnb" />
+    <None Include="Content\Content.mgcb" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
@@ -77,8 +93,6 @@
     <AndroidResource Include="Resources\Drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Actors\" />
-    <Folder Include="Content\" />
     <Folder Include="Resources\Layout\" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +105,15 @@
     <None Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameData\GameData.csproj">
+      <Project>{91FCD37B-3AC2-4C4C-95FF-4F1BB302A51C}</Project>
+      <Name>GameData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Actors\Player.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
