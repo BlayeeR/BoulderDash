@@ -7,3 +7,6 @@
 /BoulderDash/bin/Android/AnyCPU/Debug
 /BoulderDash/obj
 /BoulderDash/BoulderDash.csproj.user
+/BoulderDash/Content/bin/Android
+/BoulderDash/Content/obj/Android
+*.png

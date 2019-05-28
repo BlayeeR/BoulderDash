@@ -1,7 +1,11 @@
+using Android.Provider;
+using BoulderDash.ActorComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using System.Collections.Generic;
+using System.IO;
 
 namespace BoulderDash
 {
@@ -14,6 +18,9 @@ namespace BoulderDash
         SpriteBatch spriteBatch;
         Texture2D test;
         Rectangle player;
+        List<Actor2D> actors;
+        ActorManager actorFactory;
+
 
         public Game1()
         {
@@ -26,46 +33,35 @@ namespace BoulderDash
             graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
             TouchPanel.EnabledGestures = GestureType.HorizontalDrag | GestureType.VerticalDrag;
+
+            actorFactory = new ActorManager();
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             test = new Texture2D(graphics.GraphicsDevice, 1, 1);
             test.SetData<Color>(new Color[] { Color.Black });
             player = new Rectangle(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width/2-10, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height/2-10, 20, 20);
+            Actor2D actor = new Actor2D();
+            ActorComponent component = new PhysicsComponent();
+            component.Owner = actor;
+            actor.AddComponent(component);
+            actor.AddComponent(new TestComponent());
+            //actorFactory.SerializeActor2D(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments),"actor.xml"),actor);
+            string teststr = actorFactory.SerializeActor2DToString( actor);
+            Actor2D actor2 = actorFactory.CreateActor2DFromString(teststr);
+
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
         protected override void UnloadContent()
         {
-
-            // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
@@ -95,10 +91,6 @@ namespace BoulderDash
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
