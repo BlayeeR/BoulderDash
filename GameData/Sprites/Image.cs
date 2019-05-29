@@ -26,15 +26,28 @@ namespace GameData.Sprites
                     rectangle.Location = value.ToPoint();
             } }
 
-        public override void Initialize(Game game)
-        {
-            texture = game.Content.Load<Texture2D>(ResourcePath);
-            rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
-        }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, Color.White);
+        }
+
+        public override bool Contains(Point point)
+        {
+            return rectangle.Contains(point);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            texture = content.Load<Texture2D>(ResourcePath);
+            rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
+        }
+
+        public override void UnloadContent()
+        {
         }
     }
 }

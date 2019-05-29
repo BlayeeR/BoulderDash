@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameData.Sprites
@@ -18,12 +19,10 @@ namespace GameData.Sprites
     {
         public Color Color;
         public string String;
-        public string LinkType;
-        public string LinkID;
         private SpriteFont font;
-        public override void Initialize(Game game)
+        public override void LoadContent(ContentManager content)
         {
-            font = game.Content.Load<SpriteFont>(ResourcePath);
+            font = content.Load<SpriteFont>(ResourcePath);
         }
 
         public Vector2 TextSize()
@@ -34,6 +33,19 @@ namespace GameData.Sprites
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, String, Position, Color,0.0f, Vector2.Zero, Size, SpriteEffects.None, 0.0f);
+        }
+
+        public override bool Contains(Point point)
+        {
+            return (new Rectangle(Position.ToPoint(), TextSize().ToPoint())).Contains(point);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+        }
+
+        public override void UnloadContent()
+        {
         }
     }
 }

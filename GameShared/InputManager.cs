@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
 
 
-namespace Shared
+namespace GameShared
 {
     public class InputManager : IGameComponent
     {
@@ -82,7 +82,7 @@ namespace Shared
                         }
                     case GestureType.Tap:
                         {
-                            Tap(this, null);
+                            Tap(gesture, null);
                             break;
                         }
                 }

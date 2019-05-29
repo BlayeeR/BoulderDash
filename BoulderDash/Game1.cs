@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
-using Shared;
+using GameShared;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +22,7 @@ namespace BoulderDash
         private SpriteBatch spriteBatch;
         private List<Actor> actors = new List<Actor>();
         private Scene scene;
+        private Menu menu;
 
         public Game1()
         {
@@ -45,7 +46,9 @@ namespace BoulderDash
             actors.Add(Content.Load<Actor>("Actors/Player"));
             actors.ForEach(x => x.Initialize(this));
             scene = Content.Load<Scene>("Scenes/TitleScene");
-            scene.Initialize(this);
+            scene.LoadContent(Content);
+            menu = Content.Load<Menu>("Menus/TitleMenu");
+            menu.LoadContent(Content);
         }
 
         protected override void UnloadContent()
@@ -67,6 +70,7 @@ namespace BoulderDash
             spriteBatch.Begin();
             actors.ForEach(x => x.Draw(spriteBatch));
             scene.Draw(spriteBatch);
+            menu.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

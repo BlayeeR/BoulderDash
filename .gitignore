@@ -18,3 +18,8 @@
 *.spritefont
 /Shared/bin/Debug
 /Shared/obj
+/BoulderDash/Content/obj/Windows
+/BoulderDash/Content/Menus/TitleMenu.xml
+/GameShared/obj
+/GameShared/bin/Debug
+/BoulderDash/Content/Actors/Plasyer.xml
