@@ -25,6 +25,7 @@ namespace GameData
         public string Text { get => TextSprite.String; set => TextSprite.String = value; }
         public string LinkType;
         public string LinkID;
+        public event EventHandler OnTap;
         [ContentSerializerIgnore]
         public string FontResource { get => TextSprite.ResourcePath; set => TextSprite.ResourcePath = value; }
         [ContentSerializerIgnore]
@@ -34,11 +35,10 @@ namespace GameData
         [ContentSerializerIgnore]
         public Vector2 Position { get => TextSprite.Position; set => TextSprite.Position = value; }
 
-        private void Instance_Tap(object sender, EventArgs e)
+        private void Instance_OnTap(object sender, EventArgs e)
         {
             if (TextSprite.Contains(((GestureSample)sender).Position.ToPoint()))
-                TextSprite.Color = Color.Black;
-
+                OnTap?.Invoke(this, null);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -58,7 +58,7 @@ namespace GameData
         public void LoadContent(ContentManager content)
         {
             TextSprite.LoadContent(content);
-            InputManager.Instance.Tap += Instance_Tap;
+            InputManager.Instance.OnTap += Instance_OnTap;
         }
 
         public void UnloadContent()

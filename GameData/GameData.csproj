@@ -54,7 +54,6 @@
     <Compile Include="MenuItem.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scene.cs" />
     <Compile Include="Sprites\Image.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\Text.cs" />
@@ -72,7 +71,7 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shared\GameShared.csproj">
+    <ProjectReference Include="..\GameShared\GameShared.csproj">
       <Project>{95629a8a-8ce6-4c62-b9a1-aae3bc4aef23}</Project>
       <Name>GameShared</Name>
     </ProjectReference>

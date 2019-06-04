@@ -23,3 +23,5 @@
 /GameShared/obj
 /GameShared/bin/Debug
 /BoulderDash/Content/Actors/Plasyer.xml
+/BoulderDash/Content/Actors/Player.xml
+/BoulderDash/Content/Fonts/boulderdash.ttf

@@ -20,7 +20,7 @@ namespace GameData.ActorComponents
         [ContentSerializerIgnore]
         public Actor Owner { get; private set; }
         public abstract void Update(GameTime gameTime);
-        public virtual void Initialize(Game game, Actor owner)
+        public virtual void Initialize(ContentManager content, Actor owner)
         {
             this.Owner = owner;
         }

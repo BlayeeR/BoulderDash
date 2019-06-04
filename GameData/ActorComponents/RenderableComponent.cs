@@ -22,10 +22,10 @@ namespace GameData.ActorComponents
         Texture2D actorTexture;
         public string ResourcePath;
 
-        public override void Initialize(Game game, Actor actor)
+        public override void Initialize(ContentManager content, Actor actor)
         {
-            base.Initialize(game, actor);
-            actorTexture = game.Content.Load<Texture2D>(ResourcePath);
+            base.Initialize(content, actor);
+            actorTexture = content.Load<Texture2D>(ResourcePath);
             actorRectangle = new Rectangle(Owner.Position.ToPoint(), Owner.Size.ToPoint());
         }
 

@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 
 
@@ -19,7 +20,7 @@ namespace GameShared
         TouchCollection touchCollection;
         GestureSample gesture;
         private static InputManager instance;
-        public event EventHandler FlickLeft, FlickRight, FlickUp, FlickDown, Tap;
+        public event EventHandler OnFlickLeft, OnFlickRight, OnFlickUp, OnFlickDown, OnBackButtonClicked, OnTap;
 
         public static InputManager Instance
         {
@@ -52,41 +53,43 @@ namespace GameShared
                             if (gesture.Delta.X > 0 && gesture.Delta.Y > 0)//topright
                             {
                                 if (gesture.Delta.X < gesture.Delta.Y)
-                                    FlickUp(this, null);
+                                    OnFlickUp?.Invoke(gesture, null);
                                 else
-                                    FlickRight(this, null);
+                                    OnFlickRight?.Invoke(gesture, null);
 
                             }
                             else if (gesture.Delta.X > 0 && gesture.Delta.Y < 0)//bottomright
                             {
                                 if (gesture.Delta.X < -gesture.Delta.Y)
-                                    FlickDown(this, null);
+                                    OnFlickDown?.Invoke(gesture, null);
                                 else
-                                    FlickRight(this, null);
+                                    OnFlickRight?.Invoke(gesture, null);
                             }
                             else if (gesture.Delta.X < 0 && gesture.Delta.Y < 0)//bottomleft
                             {
                                 if (-gesture.Delta.X < -gesture.Delta.Y)
-                                    FlickDown(this, null);
+                                    OnFlickDown?.Invoke(gesture, null);
                                 else
-                                    FlickLeft(this, null);
+                                    OnFlickLeft?.Invoke(gesture, null);
                             }
                             else if (gesture.Delta.X < 0 && gesture.Delta.Y > 0)//topleft
                             {
                                 if (-gesture.Delta.X < gesture.Delta.Y)
-                                    FlickUp(this, null);
+                                    OnFlickUp?.Invoke(gesture, null);
                                 else
-                                    FlickLeft(this, null);
+                                    OnFlickLeft?.Invoke(gesture, null);
                             }
                             break;
                         }
                     case GestureType.Tap:
                         {
-                            Tap(gesture, null);
+                            OnTap?.Invoke(gesture, null);
                             break;
                         }
                 }
             }
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                OnBackButtonClicked?.Invoke(this, null);
         }
     }
 }

@@ -18,15 +18,17 @@ namespace GameData
 {
     public class Menu : IComponent
     {
+        public string ID;
         [ContentSerializer]
-        private readonly float Scale;
+        private readonly float Scale = 1;
         [ContentSerializer]
-        private Color Color;
+        private Color Color = Color.White;
         [ContentSerializer]
-        private readonly string Font;
+        private readonly string Font = "Fonts/DefaultFont";
         public float LineHeight;
         public Vector2 Position;
         public string Alignment;
+        public event EventHandler MenuItemTapped;
         public List<MenuItem> Items = new List<MenuItem>();
         [ContentSerializerIgnore]
         public float TextScale { get => Items.Count == 0 ? 0.2f : Items.FirstOrDefault().Scale; set => Items.ForEach(x => x.Scale = value); }
@@ -86,6 +88,7 @@ namespace GameData
             Items.ForEach(x =>
             {
                 x.LoadContent(content);
+                x.OnTap += MenuItemTapped;
             });
             Align();
         }
