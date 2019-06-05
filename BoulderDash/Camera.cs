@@ -19,9 +19,15 @@ using Microsoft.Xna.Framework.Input;
 namespace BoulderDash
 {
     public class Camera
-    { 
+    {
+        private Game1 game;
         public Matrix Transform { get; private set; }
         private DisplayOrientation orientation = DisplayOrientation.Default;
+
+        public Camera(Game1 game)
+        {
+            this.game = game;
+        }
 
         public void Follow(Actor target)
         {
@@ -33,21 +39,22 @@ namespace BoulderDash
             if (orientation == DisplayOrientation.LandscapeLeft || orientation == DisplayOrientation.LandscapeRight)
             {
                 offset = Matrix.CreateTranslation(
-                Game1.ScreenWidth / 2,
-                Game1.ScreenHeight / 2,
+                game.GetScaledResolution().X / 2,
+                game.GetScaledResolution().Y / 2,
                 0);
             }
             else
             {
                 offset = Matrix.CreateTranslation(
-                Game1.ScreenHeight / 2,
-                Game1.ScreenWidth / 2,
+                game.GetScaledResolution().X / 2,
+                game.GetScaledResolution().Y / 2,
                 0);
             }
 
             
 
-            Transform = position * offset;
+            Transform = position * offset ;
+            
         }
         public void ChangeOrientation(DisplayOrientation orientation)
         {

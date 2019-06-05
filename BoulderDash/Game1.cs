@@ -18,8 +18,31 @@ namespace BoulderDash
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        public static int ScreenWidth, ScreenHeight;
         public static bool Stop = false;
+        private RenderTarget2D renderTarget;
+        private float renderScale = 1f;
+        private const int renderScreenHeight = 480;
+
+        public float AspectRatio
+        {
+            get
+            {
+                if (Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
+                {
+                    return (float)GraphicsDevice.PresentationParameters.BackBufferHeight / GraphicsDevice.PresentationParameters.BackBufferWidth;
+                }
+                else
+                {
+                    return (float)GraphicsDevice.PresentationParameters.BackBufferWidth / GraphicsDevice.PresentationParameters.BackBufferHeight;
+                }
+            }
+        }
+
+        public Vector2 GetScaledResolution()
+        {
+            var scaledHeight = (float)renderScreenHeight / renderScale;
+            return new Vector2(AspectRatio * scaledHeight, scaledHeight);
+        }
 
         public Game1()
         {
@@ -31,8 +54,7 @@ namespace BoulderDash
 
         protected override void Initialize()
         {
-            ScreenHeight = graphics.PreferredBackBufferHeight;
-            ScreenWidth = graphics.PreferredBackBufferWidth;
+            renderTarget = new RenderTarget2D(GraphicsDevice, (int)GetScaledResolution().X, (int)GetScaledResolution().Y);
             base.Initialize();
         }
 
@@ -59,8 +81,24 @@ namespace BoulderDash
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.Clear(Color.Black);
             SceneManager.Instance.Draw(spriteBatch);
+            GraphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+                SamplerState.PointClamp, DepthStencilState.Default,
+                RasterizerState.CullNone);//, transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
+            GraphicsDevice.Clear(Color.Black);
+            if (Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
+            {
+                spriteBatch.Draw(renderTarget, new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Height, graphics.GraphicsDevice.Viewport.Width), Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(renderTarget, new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height), Color.White);
+            }
+            
+            spriteBatch.End();
             base.Draw(gameTime);
         }
 

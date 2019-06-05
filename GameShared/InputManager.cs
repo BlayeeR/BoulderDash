@@ -53,7 +53,7 @@ namespace GameShared
                             if (gesture.Delta.X > 0 && gesture.Delta.Y > 0)//topright
                             {
                                 if (gesture.Delta.X < gesture.Delta.Y)
-                                    OnFlickUp?.Invoke(gesture, null);
+                                    OnFlickDown?.Invoke(gesture, null);
                                 else
                                     OnFlickRight?.Invoke(gesture, null);
 
@@ -61,21 +61,21 @@ namespace GameShared
                             else if (gesture.Delta.X > 0 && gesture.Delta.Y < 0)//bottomright
                             {
                                 if (gesture.Delta.X < -gesture.Delta.Y)
-                                    OnFlickDown?.Invoke(gesture, null);
+                                    OnFlickUp?.Invoke(gesture, null);
                                 else
                                     OnFlickRight?.Invoke(gesture, null);
                             }
                             else if (gesture.Delta.X < 0 && gesture.Delta.Y < 0)//bottomleft
                             {
                                 if (-gesture.Delta.X < -gesture.Delta.Y)
-                                    OnFlickDown?.Invoke(gesture, null);
+                                    OnFlickUp?.Invoke(gesture, null);
                                 else
                                     OnFlickLeft?.Invoke(gesture, null);
                             }
                             else if (gesture.Delta.X < 0 && gesture.Delta.Y > 0)//topleft
                             {
                                 if (-gesture.Delta.X < gesture.Delta.Y)
-                                    OnFlickUp?.Invoke(gesture, null);
+                                    OnFlickDown?.Invoke(gesture, null);
                                 else
                                     OnFlickLeft?.Invoke(gesture, null);
                             }

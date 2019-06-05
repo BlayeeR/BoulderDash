@@ -20,7 +20,8 @@ namespace BoulderDash.Scenes
     {
         private static SceneManager instance;
         private ContentManager content;
-        private Stack<TitleScene> scenes = new Stack<TitleScene>();
+        private Stack<IScene> scenes = new Stack<IScene>();
+        public IScene CurrentScene { get { return scenes.Peek(); } }
 
         public static SceneManager Instance
         {

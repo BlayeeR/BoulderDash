@@ -20,9 +20,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BoulderDash.Scenes
 {
-    public class TitleScene : IComponent
+    public class TitleScene : IScene
     {
-        private Camera camera;
+        public Camera Camera { get; private set; }
         private Game1 game;
         private ActorMap map;
 
@@ -33,21 +33,21 @@ namespace BoulderDash.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: camera.Transform);
+            spriteBatch.Begin();
             map.Draw(spriteBatch);
             spriteBatch.End();
         }
 
         public void Update(GameTime gameTime)
         {
-            camera.Follow(map.Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault());
+            Camera.Follow(map.Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault());
             map.Update(gameTime);
         }
 
         public void LoadContent(ContentManager content)
         {
             InputManager.Instance.OnBackButtonClicked += InputManager_OnBackButtonClicked;
-            camera = new Camera();
+            Camera = new Camera(game);
             game.Window.OrientationChanged += Window_OrientationChanged;
             map = content.Load<ActorMap>("Maps/Cave1");
             map.LoadContent(content);
@@ -55,12 +55,7 @@ namespace BoulderDash.Scenes
 
         private void Window_OrientationChanged(object sender, EventArgs e)
         {
-            camera.ChangeOrientation(game.Window.CurrentOrientation);
-        }
-
-        private void TitleScene_OnPlayerMoved(object sender, EventArgs e)
-        {
-            
+            Camera.ChangeOrientation(game.Window.CurrentOrientation);
         }
 
         private void InputManager_OnBackButtonClicked(object sender, EventArgs e)
