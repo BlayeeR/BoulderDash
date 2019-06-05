@@ -28,8 +28,8 @@ namespace BoulderDash
 		{
 			global::GameData.Resource.String.app_name = global::BoulderDash.Resource.String.app_name;
 			global::GameData.Resource.String.hello = global::BoulderDash.Resource.String.hello;
-			global::Shared.Resource.String.app_name = global::BoulderDash.Resource.String.app_name;
-			global::Shared.Resource.String.hello = global::BoulderDash.Resource.String.hello;
+			global::GameShared.Resource.String.app_name = global::BoulderDash.Resource.String.app_name;
+			global::GameShared.Resource.String.hello = global::BoulderDash.Resource.String.hello;
 		}
 		
 		public partial class Attribute

@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace GameData
 {
-    public class Actor : IDraw, IUpdate, ILoad
+    public class Actor : IDraw, IUpdate, ILoad, IFocusable
     {
         public string Name;
         public uint ID;

@@ -9,12 +9,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using GameShared.Interfaces;
+using Microsoft.Xna.Framework;
 
-namespace BoulderDash.Scenes
+namespace GameShared.Interfaces
 {
-    public interface IScene : IComponent
+    public interface IFocusable
     {
-        Camera2D Camera { get; }
+        Vector2 Position { get; }
     }
 }

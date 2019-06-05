@@ -10,8 +10,8 @@
     <TemplateGuid>{9ef11e43-1701-4396-8835-8392d57abb70}</TemplateGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Shared</RootNamespace>
-    <AssemblyName>Shared</AssemblyName>
+    <RootNamespace>GameShared</RootNamespace>
+    <AssemblyName>GameShared</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -49,6 +49,7 @@
     <Compile Include="InputManager.cs" />
     <Compile Include="Interfaces\IComponent.cs" />
     <Compile Include="Interfaces\IDraw.cs" />
+    <Compile Include="Interfaces\IFocusable.cs" />
     <Compile Include="Interfaces\ILoad.cs" />
     <Compile Include="Interfaces\IUpdate.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

@@ -87,7 +87,7 @@ namespace BoulderDash
             GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
                 SamplerState.PointClamp, DepthStencilState.Default,
-                RasterizerState.CullNone);//, transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
+                RasterizerState.CullNone);
             GraphicsDevice.Clear(Color.Black);
             if (Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
             {
@@ -97,7 +97,6 @@ namespace BoulderDash
             {
                 spriteBatch.Draw(renderTarget, new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height), Color.White);
             }
-            
             spriteBatch.End();
             base.Draw(gameTime);
         }

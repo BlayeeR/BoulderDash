@@ -22,7 +22,7 @@ namespace BoulderDash.Scenes
 {
     public class TitleScene : IScene
     {
-        public Camera Camera { get; private set; }
+        public Camera2D Camera { get; private set; }
         private Game1 game;
         private ActorMap map;
 
@@ -33,29 +33,32 @@ namespace BoulderDash.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp ,transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
             map.Draw(spriteBatch);
             spriteBatch.End();
         }
 
         public void Update(GameTime gameTime)
         {
-            Camera.Follow(map.Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault());
+            //Camera.Follow(map.Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault());
+            Camera.Update(gameTime);
             map.Update(gameTime);
         }
 
         public void LoadContent(ContentManager content)
         {
             InputManager.Instance.OnBackButtonClicked += InputManager_OnBackButtonClicked;
-            Camera = new Camera(game);
+            Camera = new Camera2D(game);
+            Camera.Initialize();
             game.Window.OrientationChanged += Window_OrientationChanged;
             map = content.Load<ActorMap>("Maps/Cave1");
             map.LoadContent(content);
+            Camera.Focus = map.Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
         }
 
         private void Window_OrientationChanged(object sender, EventArgs e)
         {
-            Camera.ChangeOrientation(game.Window.CurrentOrientation);
+            //Camera.ChangeOrientation(game.Window.CurrentOrientation);
         }
 
         private void InputManager_OnBackButtonClicked(object sender, EventArgs e)

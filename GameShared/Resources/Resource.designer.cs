@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Shared.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("GameShared.Resource", IsApplication=false)]
 
-namespace Shared
+namespace GameShared
 {
 	
 	

@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using GameShared;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameShared.Interfaces;
 
 namespace GameData.ActorComponents
 {
