@@ -68,26 +68,19 @@
     <Compile Include="Scenes\SceneManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Content\Textures\BeamCorner.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\BeamSide.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Boulder1.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Boulder2.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Boulder3.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Butterfly.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Diamond.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Dirt.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Gate.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Ghost.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Grass.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Lava.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\MagicWall.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Player.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Slime.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Wall.xnb" />
-    <AndroidAsset Include="Assets\Content\Actors\Player.xnb" />
     <AndroidAsset Include="Assets\Content\Fonts\DefaultFont.xnb" />
     <AndroidAsset Include="Assets\Content\Menus\TitleMenu.xnb" />
-    <None Include="Content\Actors\Player.xml" />
+    <AndroidAsset Include="Assets\Content\Maps\Cave1.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\BorderWall.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Boulder.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\ClosedExit.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Diamond.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Dirt.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Player.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Wall.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\1.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\2.xnb" />
+    <None Include="Content\Actors\1.xml" />
     <None Include="Content\Content.mgcb" />
     <None Include="Content\Fonts\DefaultFont.spritefont" />
     <None Include="Resources\AboutResources.txt" />
@@ -126,6 +119,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Actors\2.xml" />
+    <Content Include="Content\Maps\Cave1.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\Menus\TitleMenu.xml">
       <SubType>Designer</SubType>
     </Content>

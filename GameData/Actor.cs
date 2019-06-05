@@ -10,13 +10,14 @@ using System.Xml.Serialization;
 
 namespace GameData
 {
-    public class Actor : IComponent
+    public class Actor : IDraw, IUpdate, ILoad
     {
+        public string Name;
         public uint ID;
         public Vector2 Position { get; set; }
         public List<ActorComponent> Components = new List<ActorComponent>();
         [ContentSerializerIgnore]
-        public Vector2 Size { get { return new Vector2(50); } }
+        public Vector2 Size { get { return new Vector2(16); } }
 
         public void Update(GameTime gameTime)
         {
@@ -35,7 +36,6 @@ namespace GameData
 
         public void UnloadContent()
         {
-            throw new NotImplementedException();
         }
     }
 }

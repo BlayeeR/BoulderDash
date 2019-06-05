@@ -53,6 +53,7 @@ namespace GameData
 
         public void Update(GameTime gameTime)
         {
+            TextSprite.Update(gameTime);
         }
 
         public void LoadContent(ContentManager content)
@@ -63,6 +64,7 @@ namespace GameData
 
         public void UnloadContent()
         {
+            TextSprite.UnloadContent();
         }
     }
 }

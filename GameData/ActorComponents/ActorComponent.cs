@@ -10,12 +10,14 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GameData;
+using GameShared.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameData.ActorComponents
 {
-    public abstract class ActorComponent
+    public abstract class ActorComponent : IUpdate
     {
         [ContentSerializerIgnore]
         public Actor Owner { get; private set; }
@@ -24,6 +26,5 @@ namespace GameData.ActorComponents
         {
             this.Owner = owner;
         }
-
     }
 }

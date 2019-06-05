@@ -78,6 +78,7 @@ namespace GameData
 
         public void Update(GameTime gameTime)
         {
+            Items.ForEach(x => x.Update(gameTime));
         }
 
         public void LoadContent(ContentManager content)
@@ -95,6 +96,7 @@ namespace GameData
 
         public void UnloadContent()
         {
+            Items.ForEach(x => x.UnloadContent());
         }
     }
 }

@@ -10,11 +10,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameShared.Interfaces
 {
-    public interface IComponent : IDraw, ILoad, IUpdate
-    {}
+    public interface IUpdate
+    {
+        void Update(GameTime gameTime);
+    }
 }
