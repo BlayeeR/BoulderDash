@@ -33,14 +33,14 @@ namespace BoulderDash.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp ,transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);// ,transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
             map.Draw(spriteBatch);
             spriteBatch.End();
+            
         }
 
         public void Update(GameTime gameTime)
         {
-            //Camera.Follow(map.Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault());
             Camera.Update(gameTime);
             map.Update(gameTime);
         }

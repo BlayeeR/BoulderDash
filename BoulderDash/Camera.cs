@@ -44,9 +44,8 @@ namespace BoulderDash
         {
             viewportWidth = (Game as Game1).GetScaledResolution().X;
             viewportHeight = (Game as Game1).GetScaledResolution().Y;
-
             ScreenCenter = new Vector2(viewportWidth / 2, viewportHeight / 2);
-            Scale = 2;
+            Scale = 1;
             MoveSpeed = 10f;
 
             base.Initialize();
@@ -63,7 +62,6 @@ namespace BoulderDash
             Origin = ScreenCenter / Scale;
 
             var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             position.X += (Focus.Position.X - Position.X) * MoveSpeed * delta;
             position.Y += (Focus.Position.Y - Position.Y) * MoveSpeed * delta;
 

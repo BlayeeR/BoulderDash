@@ -46,13 +46,38 @@ namespace GameData.Maps
 
         private void Instance_OnFlickRight(object sender, EventArgs e)
         {
-            Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault().Components.OfType<PlayerComponent>().FirstOrDefault().MoveRight();
-
+            Actor player = Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
+            Actor neighbour = Tiles.Actors.Where(x => x.Position == player.Position + new Vector2(16, 0)).FirstOrDefault();
+            if (player != null)
+                if (neighbour != null)
+                {
+                    if (!neighbour.Components.OfType<BorderComponent>().Any())
+                    {
+                        player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveRight();
+                    }
+                }
+                else
+                {
+                    player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveRight();
+                }
         }
 
         private void Instance_OnFlickLeft(object sender, EventArgs e)
         {
-            Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault().Components.OfType<PlayerComponent>().FirstOrDefault().MoveLeft();
+            Actor player = Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
+            Actor neighbour = Tiles.Actors.Where(x => x.Position == player.Position + new Vector2(-16, 0)).FirstOrDefault();
+            if (player != null)
+                if (neighbour != null)
+                {
+                    if (!neighbour.Components.OfType<BorderComponent>().Any())
+                    {
+                        player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveLeft();
+                    }
+                }
+                else
+                {
+                    player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveLeft();
+                }
         }
 
         private void Instance_OnFlickUp(object sender, EventArgs e)
@@ -71,26 +96,24 @@ namespace GameData.Maps
                 {
                     player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveUp();
                 }
-            //.Components.Con.ForEach(y =>
-            //{
-            //    switch (y)
-            //    {
-            //        case BorderComponent b:
-            //            {
-            //                break;
-            //            }
-            //        default:
-            //            {
-            //                player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveUp();
-            //                break;
-            //            }
-            //    }
-            //});
         }
 
         private void Instance_OnFlickDown(object sender, EventArgs e)
         {
-            Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault().Components.OfType<PlayerComponent>().FirstOrDefault().MoveDown();
+            Actor player = Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
+            Actor neighbour = Tiles.Actors.Where(x => x.Position == player.Position + new Vector2(0, 16)).FirstOrDefault();
+            if (player != null)
+                if (neighbour != null)
+                {
+                    if (!neighbour.Components.OfType<BorderComponent>().Any())
+                    {
+                        player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveDown();
+                    }
+                }
+                else
+                {
+                    player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveDown();
+                }
         }
 
         public void UnloadContent()
