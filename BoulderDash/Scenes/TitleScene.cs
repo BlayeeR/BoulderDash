@@ -23,7 +23,7 @@ namespace BoulderDash.Scenes
     public class TitleScene : IScene
     {
         public Camera2D Camera { get; private set; }
-        private Game1 game;
+        private readonly Game1 game;
         private ActorMap map;
 
         public TitleScene(Game1 game)
@@ -33,7 +33,7 @@ namespace BoulderDash.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);// ,transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp,transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
             map.Draw(spriteBatch);
             spriteBatch.End();
             
@@ -48,17 +48,12 @@ namespace BoulderDash.Scenes
         public void LoadContent(ContentManager content)
         {
             InputManager.Instance.OnBackButtonClicked += InputManager_OnBackButtonClicked;
-            Camera = new Camera2D(game);
-            Camera.Initialize();
-            game.Window.OrientationChanged += Window_OrientationChanged;
             map = content.Load<ActorMap>("Maps/Cave1");
             map.LoadContent(content);
+            Camera = new Camera2D(game);
+            Camera.Initialize();
+            Camera.CalculateDeadZone(map.Size, map.Tiles.TileDimensions);
             Camera.Focus = map.Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
-        }
-
-        private void Window_OrientationChanged(object sender, EventArgs e)
-        {
-            //Camera.ChangeOrientation(game.Window.CurrentOrientation);
         }
 
         private void InputManager_OnBackButtonClicked(object sender, EventArgs e)

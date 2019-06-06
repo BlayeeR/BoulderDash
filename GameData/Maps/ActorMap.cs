@@ -24,6 +24,8 @@ namespace GameData.Maps
         public string Name;
         public int Time, DiamondsRequired, DiamondValue, BonusDiamondValue;
         public TileManager Tiles;
+        [ContentSerializerIgnore]
+        public Vector2 Size;
 
         public void Update(GameTime gameTime)
         {
@@ -38,6 +40,7 @@ namespace GameData.Maps
         public void LoadContent(ContentManager content)
         {
             Tiles.LoadContent(content);
+            Size = new Vector2(Tiles.Actors.Select(x => x.Position.X).Max() + Tiles.TileDimensions.X, Tiles.Actors.Select(x => x.Position.Y).Max() + Tiles.TileDimensions.Y);
             InputManager.Instance.OnFlickDown += Instance_OnFlickDown;
             InputManager.Instance.OnFlickUp += Instance_OnFlickUp;
             InputManager.Instance.OnFlickLeft += Instance_OnFlickLeft;

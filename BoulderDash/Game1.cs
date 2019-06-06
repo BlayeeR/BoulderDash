@@ -57,7 +57,11 @@ namespace BoulderDash
 
         private void Window_OrientationChanged(object sender, EventArgs e)
         {
-            renderTarget = new RenderTarget2D(GraphicsDevice, (int)GetScaledResolution().Y, (int)GetScaledResolution().X);
+            float x = (int)GetScaledResolution().X, y = (int)GetScaledResolution().Y;
+            if(Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
+                renderTarget = new RenderTarget2D(GraphicsDevice, (int)(x > y ? x : y), (int)(x > y ? y : x));
+            else
+                renderTarget = new RenderTarget2D(GraphicsDevice, (int)(x > y ? y : x), (int)(x > y ? x : y));
         }
 
         protected override void LoadContent()
