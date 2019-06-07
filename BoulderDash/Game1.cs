@@ -68,7 +68,7 @@ namespace BoulderDash
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             SceneManager.Instance.LoadContent(Content);
-            SceneManager.Instance.AddScene(new TitleScene(this));
+            SceneManager.Instance.AddScene(new MainScene(this));
         }
 
         protected override void UnloadContent()

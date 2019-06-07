@@ -40,7 +40,7 @@ namespace BoulderDash.Scenes
             this.content = content;
         }
 
-        public void AddScene(TitleScene scene)
+        public void AddScene(IScene scene)
         {
             scenes.Push(scene);
             if (content != null)
@@ -67,7 +67,7 @@ namespace BoulderDash.Scenes
             }
         }
 
-        public void ChangeScene(TitleScene scene)
+        public void ChangeScene(IScene scene)
         {
             ClearScenes();
             AddScene(scene);
@@ -91,7 +91,7 @@ namespace BoulderDash.Scenes
 
         public void UnloadContent()
         {
-            foreach (TitleScene scene in scenes)
+            foreach (IScene scene in scenes)
             {
                 scene.UnloadContent();
             }

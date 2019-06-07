@@ -54,12 +54,12 @@ namespace BoulderDash
         {
             switch((sender as MenuItem).LinkType)
             {
-                case "Scene":
-                    {
-                        ClearMenus();
-                        SceneManager.Instance.ChangeScene(content.Load<TitleScene>($"Scenes/{(sender as MenuItem).LinkID}"));
-                        break;
-                    }
+                //case "Scene":
+                //    {
+                //        ClearMenus();
+                //        SceneManager.Instance.ChangeScene(content.Load<Scene>($"Scenes/{(sender as MenuItem).LinkID}"));
+                //        break;
+                //    }
                 case "Menu":
                     {
                         if (menus.Skip(1).First().ID.Equals((sender as MenuItem).LinkID))

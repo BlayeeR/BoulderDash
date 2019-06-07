@@ -20,13 +20,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BoulderDash.Scenes
 {
-    public class TitleScene : IScene
+    public class MainScene : IScene
     {
         public Camera2D Camera { get; private set; }
         private readonly Game1 game;
         private ActorMap map;
 
-        public TitleScene(Game1 game)
+        public MainScene(Game1 game)
         {
             this.game = game;
         }
@@ -34,6 +34,10 @@ namespace BoulderDash.Scenes
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp,transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
+            int r = 128;
+            int g = 0;
+            int b = 128;
+            int a = 255;
             map.Draw(spriteBatch);
             spriteBatch.End();
             
