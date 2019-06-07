@@ -15,6 +15,5 @@ namespace BoulderDash.Scenes
 {
     public interface IScene : IComponent
     {
-        Camera2D Camera { get; }
     }
 }

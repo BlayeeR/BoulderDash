@@ -22,6 +22,8 @@ namespace GameShared
         private static InputManager instance;
         public event EventHandler OnFlickLeft, OnFlickRight, OnFlickUp, OnFlickDown, OnBackButtonClicked, OnTap;
 
+        public Vector2 ScaledResolution = Vector2.Zero;
+
         public static InputManager Instance
         {
             get
@@ -40,6 +42,7 @@ namespace GameShared
             gesture = default(GestureSample);
             TouchPanel.EnabledGestures = GestureType.Tap | GestureType.Flick;
         }
+
         public void Update(GameTime gameTime)
         {
             touchCollection = TouchPanel.GetState();
@@ -83,7 +86,9 @@ namespace GameShared
                         }
                     case GestureType.Tap:
                         {
-                            OnTap?.Invoke(gesture, null);
+                            if(ScaledResolution != Vector2.Zero)
+                                OnTap?.Invoke(new Vector2(gesture.Position.X/TouchPanel.DisplayWidth*ScaledResolution.X, gesture.Position.Y/TouchPanel.DisplayHeight*ScaledResolution.Y), null);
+                            
                             break;
                         }
                 }

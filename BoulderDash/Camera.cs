@@ -50,10 +50,10 @@ namespace BoulderDash
             get => screenCenter; protected set
             {
                 screenCenter = value;
-                if (Game.Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Game.Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
+                //if (Game.Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Game.Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
                     screenCenter = new Vector2(screenCenter.X > screenCenter.Y ? screenCenter.X : screenCenter.Y, screenCenter.X > screenCenter.Y ? screenCenter.Y : screenCenter.X);
-                else
-                    screenCenter = new Vector2(screenCenter.X > screenCenter.Y ? screenCenter.Y : screenCenter.X, screenCenter.X > screenCenter.Y ? screenCenter.X : screenCenter.Y);
+                //else
+                //    screenCenter = new Vector2(screenCenter.X > screenCenter.Y ? screenCenter.Y : screenCenter.X, screenCenter.X > screenCenter.Y ? screenCenter.X : screenCenter.Y);
             }
         }
         public Matrix Transform { get; set; }
@@ -63,10 +63,10 @@ namespace BoulderDash
             get => new Vector2((float)Math.Round(deadZone.X / focusSize.X / Scale) * focusSize.X, (float)Math.Round(deadZone.Y / focusSize.Y / Scale) * focusSize.Y); set
             {
                 deadZone = value;
-                if (Game.Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Game.Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
+                //if (Game.Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Game.Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
                     deadZone = new Vector2(deadZone.X > deadZone.Y ? deadZone.X : deadZone.Y, deadZone.X > deadZone.Y ? deadZone.Y : deadZone.X);
-                else
-                    deadZone = new Vector2(deadZone.X > deadZone.Y ? deadZone.Y : deadZone.X, deadZone.X > deadZone.Y ? deadZone.X : deadZone.Y);
+                //else
+                //    deadZone = new Vector2(deadZone.X > deadZone.Y ? deadZone.Y : deadZone.X, deadZone.X > deadZone.Y ? deadZone.X : deadZone.Y);
             }
         }
         public IFocusable Focus
@@ -104,7 +104,7 @@ namespace BoulderDash
             viewportWidth = (Game as Game1).GetScaledResolution().X;
             viewportHeight = (Game as Game1).GetScaledResolution().Y;
             ScreenCenter = new Vector2((float)Math.Round(viewportWidth / 2), (float)Math.Round(viewportHeight / 2));
-            Game.Window.OrientationChanged += Window_OrientationChanged;
+            //Game.Window.OrientationChanged += Window_OrientationChanged;
             Scale = 1;
             MoveSpeed = 10f;
             DeadZone = Vector2.Zero;

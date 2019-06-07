@@ -72,6 +72,7 @@
     <Compile Include="Scenes\IScene.cs" />
     <Compile Include="Scenes\MainScene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
+    <Compile Include="Scenes\TitleScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Content\Fonts\DefaultFont.xnb" />
@@ -86,9 +87,13 @@
     <AndroidAsset Include="Assets\Content\Textures\Wall.xnb" />
     <AndroidAsset Include="Assets\Content\Actors\1.xnb" />
     <AndroidAsset Include="Assets\Content\Actors\2.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Logo.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Sprites.xnb" />
     <None Include="Content\Actors\1.xml" />
     <None Include="Content\Content.mgcb" />
-    <None Include="Content\Fonts\DefaultFont.spritefont" />
+    <None Include="Content\Fonts\DefaultFont.spritefont">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>

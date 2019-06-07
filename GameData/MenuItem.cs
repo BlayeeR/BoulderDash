@@ -48,7 +48,7 @@ namespace GameData
 
         public Vector2 CalculateSize()
         {
-            return TextSprite.TextSize();
+            return TextSprite.Size;
         }
 
         public void Update(GameTime gameTime)

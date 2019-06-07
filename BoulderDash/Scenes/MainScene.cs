@@ -33,11 +33,7 @@ namespace BoulderDash.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp,transformMatrix: SceneManager.Instance.CurrentScene.Camera.Transform);
-            int r = 128;
-            int g = 0;
-            int b = 128;
-            int a = 255;
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp,transformMatrix: Camera.Transform);
             map.Draw(spriteBatch);
             spriteBatch.End();
             

@@ -20,7 +20,7 @@ namespace BoulderDash
         private SpriteBatch spriteBatch;
         public static bool Stop = false;
         private RenderTarget2D renderTarget;
-        private float renderScale = 1.5f;
+        private float renderScale = 1.375f;
         private const int renderScreenHeight = 480;
 
         public float AspectRatio
@@ -45,13 +45,14 @@ namespace BoulderDash
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = true;
-            graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight | DisplayOrientation.Portrait | DisplayOrientation.PortraitDown;
+            graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;// | DisplayOrientation.Portrait | DisplayOrientation.PortraitDown;
+            graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
             renderTarget = new RenderTarget2D(GraphicsDevice, (int)GetScaledResolution().X, (int)GetScaledResolution().Y);
-            Window.OrientationChanged += Window_OrientationChanged;
+            //Window.OrientationChanged += Window_OrientationChanged;
             base.Initialize();
         }
 
@@ -68,7 +69,8 @@ namespace BoulderDash
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             SceneManager.Instance.LoadContent(Content);
-            SceneManager.Instance.AddScene(new MainScene(this));
+            SceneManager.Instance.AddScene(new TitleScene(this));
+            InputManager.Instance.ScaledResolution = GetScaledResolution();
         }
 
         protected override void UnloadContent()
@@ -96,6 +98,7 @@ namespace BoulderDash
                 RasterizerState.CullNone);
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Draw(renderTarget, new Rectangle(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight), Color.White);
+            //spriteBatch.Draw(renderTarget, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }
