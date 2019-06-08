@@ -70,6 +70,12 @@ namespace BoulderDash.Scenes
             playText = new Text(Vector2.Zero, "Start", Color.Blue);
             playText.LoadContent(content);
             playText.Position = new Vector2((x - playText.Size.X) / 2, y * 0.92f);
+            playText.Clicked += PlayText_Clicked;
+        }
+
+        private void PlayText_Clicked(object sender, EventArgs e)
+        {
+            SceneManager.Instance.ChangeScene(new MainScene(game));
         }
 
         private void CaveNumber_Clicked(object sender, EventArgs e)

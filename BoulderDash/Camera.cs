@@ -30,9 +30,12 @@ namespace BoulderDash
         private Vector2 screenCenter;
         private float scale;
 
-        public Camera2D(Game1 game)
+        public Camera2D(Game1 game, Vector2 dimensions)
             : base(game)
-        { }
+        {
+            viewportWidth = dimensions.X;
+            viewportHeight = dimensions.Y;
+        }
 
         public Vector2 Position
         {
@@ -85,24 +88,32 @@ namespace BoulderDash
             float delta = 1;
             if (gameTime !=null)
                  delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (focus.Position.X <= DeadZone.X)
+            if (focus.Position.X < DeadZone.X)
                 position.X = DeadZone.X + focusSize.X;
-            else if (focus.Position.X >= MapSize.X - DeadZone.X - focusSize.X)
+            else if (focus.Position.X > MapSize.X - DeadZone.X - focusSize.X)
                 position.X = MapSize.X - DeadZone.X - focusSize.X;
+            else if (focus.Position.X == MapSize.X - DeadZone.X - focusSize.X)
+                position.X += (Focus.Position.X - Position.X) * MoveSpeed * delta;
+            else if (focus.Position.X == deadZone.X)
+                position.X += ((Focus.Position.X + focusSize.X) - Position.X) * MoveSpeed * delta;
             else
                 position.X += ((Focus.Position.X + (focusSize.X / 2)) - Position.X) * MoveSpeed * delta;
-            if (focus.Position.Y <= DeadZone.Y)
+
+
+            if (focus.Position.Y < DeadZone.Y )
                 position.Y = DeadZone.Y + focusSize.Y;
-            else if (focus.Position.Y >= MapSize.Y - DeadZone.Y - focusSize.Y)
+            else if (focus.Position.Y > MapSize.Y - DeadZone.Y - focusSize.Y)
                 position.Y = MapSize.Y - DeadZone.Y - focusSize.Y;
+            else if (focus.Position.Y == MapSize.Y - DeadZone.Y - focusSize.Y)
+                position.Y += (Focus.Position.Y - Position.Y) * MoveSpeed * delta;
+            else if (focus.Position.Y <= DeadZone.Y)
+                position.Y += ((Focus.Position.Y + focusSize.Y) - Position.Y) * MoveSpeed * delta;
             else
                 position.Y += ((Focus.Position.Y + (focusSize.Y / 2)) - Position.Y) * MoveSpeed * delta;
         }
 
         public override void Initialize()
         {
-            viewportWidth = (Game as Game1).GetScaledResolution().X;
-            viewportHeight = (Game as Game1).GetScaledResolution().Y;
             ScreenCenter = new Vector2((float)Math.Round(viewportWidth / 2), (float)Math.Round(viewportHeight / 2));
             //Game.Window.OrientationChanged += Window_OrientationChanged;
             Scale = 1;
@@ -123,8 +134,8 @@ namespace BoulderDash
         {
             MapSize = mapSize;
             focusSize = tileSize;
-            DeadZone = new Vector2(((float)Math.Round((Game as Game1).GetScaledResolution().X / focusSize.X / 2) - 1) * focusSize.X,
-                                   ((float)Math.Round((Game as Game1).GetScaledResolution().Y / focusSize.Y / 2) - 1) * focusSize.Y);
+            DeadZone = new Vector2(((float)Math.Round(viewportWidth / focusSize.X / 2) - 1) * focusSize.X,
+                                   ((float)Math.Round(viewportHeight / focusSize.Y / 2) - 1) * focusSize.Y);
         }
 
         public override void Update(GameTime gameTime)

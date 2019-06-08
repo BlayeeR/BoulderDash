@@ -83,6 +83,18 @@ namespace GameData.Sprites
                                 letters.Add(new Image(new Vector2(lastPos, position.Y), new Vector2(16, 8), "Textures/Sprites", Color, new Vector2(128, 264 + (8 * (n - 97)))));
                                 break;
                             }
+                        case '[':
+                            {
+                                Color = Color.Yellow;
+                                lastPos -= 16;
+                                break;
+                            }
+                        case ']':
+                            {
+                                Color = Color.White;
+                                lastPos -= 16;
+                                break;
+                            }
 
                     }
                     lastPos += 16;
