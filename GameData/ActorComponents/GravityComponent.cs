@@ -10,10 +10,17 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace GameData.ActorComponents
 {
-    public class BorderComponent : ActorComponent
+    public class GravityComponent : MovableComponent
     {
+        
+        public override void Initialize(ContentManager content, Actor owner)
+        {
+            base.Initialize(content, owner);
+        }
+
     }
 }

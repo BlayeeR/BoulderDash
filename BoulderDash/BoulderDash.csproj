@@ -77,7 +77,6 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\Content\Fonts\DefaultFont.xnb" />
     <AndroidAsset Include="Assets\Content\Menus\TitleMenu.xnb" />
-    <AndroidAsset Include="Assets\Content\Maps\Cave1.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\BorderWall.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\Boulder.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\ClosedExit.xnb" />
@@ -85,11 +84,16 @@
     <AndroidAsset Include="Assets\Content\Textures\Dirt.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\Player.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\Wall.xnb" />
-    <AndroidAsset Include="Assets\Content\Actors\1.xnb" />
-    <AndroidAsset Include="Assets\Content\Actors\2.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\Logo.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\Sprites.xnb" />
-    <None Include="Content\Actors\1.xml" />
+    <AndroidAsset Include="Assets\Content\Maps\1.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\Border.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\Player.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\Dirt.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\Boulder.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\Diamond.xnb" />
+    <AndroidAsset Include="Assets\Content\Actors\Wall.xnb" />
+    <None Include="Content\Actors\Player.xml" />
     <None Include="Content\Content.mgcb" />
     <None Include="Content\Fonts\DefaultFont.spritefont">
       <SubType>Designer</SubType>
@@ -130,8 +134,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Actors\2.xml" />
-    <Content Include="Content\Maps\Cave1.xml">
+    <Content Include="Content\Actors\Border.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Actors\Boulder.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Actors\Diamond.xml" />
+    <Content Include="Content\Actors\Dirt.xml" />
+    <Content Include="Content\Actors\Wall.xml" />
+    <Content Include="Content\Maps\1.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Content\Menus\TitleMenu.xml">

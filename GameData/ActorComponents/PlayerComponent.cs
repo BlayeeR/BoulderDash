@@ -54,9 +54,5 @@ namespace GameData.ActorComponents
         //    OnPlayerMoved?.Invoke(Owner, null);
         //}
 
-        public override void Update(GameTime gameTime)
-        {
-        }
-
     }
 }

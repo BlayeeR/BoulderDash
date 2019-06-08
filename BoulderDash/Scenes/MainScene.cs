@@ -25,8 +25,9 @@ namespace BoulderDash.Scenes
         public Camera2D Camera { get; private set; }
         private readonly Game1 game;
         private ActorMap map;
-        private float guiSize = 0.0764f;
-        private RenderTarget2D guiWindow, mapWindow;
+        private readonly float guiSize = 0.0764f;
+        private readonly RenderTarget2D guiWindow;
+        private readonly RenderTarget2D mapWindow;
         private Text guiText;
 
         public MainScene(Game1 game)
@@ -70,12 +71,12 @@ namespace BoulderDash.Scenes
         public void LoadContent(ContentManager content)
         {
             InputManager.Instance.OnBackButtonClicked += InputManager_OnBackButtonClicked;
-            map = content.Load<ActorMap>("Maps/Cave1");
+            map = content.Load<ActorMap>("Maps/1");
             map.LoadContent(content);
             Camera = new Camera2D(game, new Vector2(game.GetScaledResolution().X, game.GetScaledResolution().Y * (1 - guiSize)));
             Camera.Initialize();
-            Camera.CalculateDeadZone(map.Size, map.Tiles.TileDimensions);
-            Camera.Focus = map.Tiles.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
+            Camera.CalculateDeadZone(map.Size, map.TileDimensions);
+            Camera.Focus = map.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
             guiText = new Text(new Vector2(game.GetScaledResolution().X*0.06f, game.GetScaledResolution().Y*guiSize /4), "[12]/10 [00] 127 000000", Color.White);
             guiText.LoadContent(content);
         }

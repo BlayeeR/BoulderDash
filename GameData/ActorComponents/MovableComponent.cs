@@ -10,38 +10,212 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace GameData.ActorComponents
 {
     public class MovableComponent : ActorComponent
     {
-        public event EventHandler OnActorMoved;
-        public void MoveRight()
+        private double timer = 0;
+        private bool fireEvent = false;
+
+        public override void Initialize(ContentManager content, Actor owner)
         {
-            Owner.Position += new Vector2(Owner.Size.X, 0);
-            OnActorMoved?.Invoke(Owner, null);
+            base.Initialize(content, owner);
         }
 
-        public void MoveLeft()
+
+        public bool MoveRight()
         {
-            Owner.Position += new Vector2(-Owner.Size.X, 0);
-            OnActorMoved?.Invoke(Owner, null);
+            Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X + Owner.Size.X && x.Position.Y == Owner.Position.Y).FirstOrDefault();
+            //player wants to move
+            if (Owner.Components.OfType<PlayerComponent>().Any())
+            {
+                try
+                {
+                    //border in the way, cant move
+                    if (target.Components.OfType<BorderComponent>().Any())
+                        return false;
+                    //movable object in the way
+                    if (target.Components.OfType<MovableComponent>().Any())
+                    {
+                        //try to move
+                        if (target.Components.OfType<MovableComponent>().FirstOrDefault().MoveRight())
+                        {
+                            //object moved, move player
+                            Owner.Position += new Vector2(Owner.Size.X, 0);
+                            base.OnActionPerformed();
+                            return true;
+                        }
+                    }
+                    //destroyable object in the way
+                    else if (target.Components.OfType<DestroyableComponent>().Any())
+                    {
+                        //destroy object
+                        target.Components.OfType<DestroyableComponent>().FirstOrDefault().Destroy();
+                        //move
+                        Owner.Position += new Vector2(Owner.Size.X, 0);
+                        base.OnActionPerformed();
+                        return true;
+
+                    }
+                }
+                catch
+                {
+                    //empty space, move
+                    Owner.Position += new Vector2(Owner.Size.X, 0);
+                    base.OnActionPerformed();
+                    return true;
+                }
+            }
+            else //object wants to move
+            {
+                //no other entity in the way
+                if(target == null)
+                {
+                    //move
+                    Owner.Position += new Vector2(Owner.Size.X, 0);
+                    base.OnActionPerformed();
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void MoveUp()
+        public bool MoveLeft()
         {
-            Owner.Position += new Vector2(0, -Owner.Size.Y);
-            OnActorMoved?.Invoke(Owner, null);
+            Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X - Owner.Size.X && x.Position.Y == Owner.Position.Y).FirstOrDefault();
+            //player wants to move
+            if (Owner.Components.OfType<PlayerComponent>().Any())
+            {
+                try
+                {
+                    //border in the way, cant move
+                    if (target.Components.OfType<BorderComponent>().Any())
+                        return false;
+                    //movable object in the way
+                    if (target.Components.OfType<MovableComponent>().Any())
+                    {
+                        //try to move
+                        if (target.Components.OfType<MovableComponent>().FirstOrDefault().MoveLeft())
+                        {
+                            //object moved, move player
+                            Owner.Position += new Vector2(-Owner.Size.X, 0);
+                            base.OnActionPerformed();
+                            return true;
+                        }
+                    }
+                    //destroyable object in the way
+                    else if (target.Components.OfType<DestroyableComponent>().Any())
+                    {
+                        //destroy object
+                        target.Components.OfType<DestroyableComponent>().FirstOrDefault().Destroy();
+                        //move
+                        Owner.Position += new Vector2(-Owner.Size.X, 0);
+                        base.OnActionPerformed();
+                        return true;
+
+                    }
+                }
+                catch
+                {
+                    //empty space, move
+                    Owner.Position += new Vector2(-Owner.Size.X, 0);
+                    base.OnActionPerformed();
+                    return true;
+                }
+            }
+            else //object wants to move
+            {
+                //no other entity in the way
+                if (target == null)
+                {
+                    //move
+                    Owner.Position += new Vector2(-Owner.Size.X, 0);
+                    base.OnActionPerformed();
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void MoveDown()
+        public bool MoveUp()
         {
-            Owner.Position += new Vector2(0, Owner.Size.Y);
-            OnActorMoved?.Invoke(Owner, null);
+            Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X && x.Position.Y == Owner.Position.Y-Owner.Size.Y).FirstOrDefault();
+            //player wants to move
+            if (Owner.Components.OfType<PlayerComponent>().Any())
+            {
+                try
+                {
+                    //border in the way, cant move
+                    if (target.Components.OfType<BorderComponent>().Any())
+                        return false;
+                    //destroyable object in the way
+                    else if (target.Components.OfType<DestroyableComponent>().Any())
+                    {
+                        //destroy object
+                        target.Components.OfType<DestroyableComponent>().FirstOrDefault().Destroy();
+                        //move
+                        Owner.Position += new Vector2(0, -Owner.Size.Y);
+                        base.OnActionPerformed();
+                        return true;
+
+                    }
+                }
+                catch
+                {
+                    //empty space, move
+                    Owner.Position += new Vector2(0, -Owner.Size.Y);
+                    base.OnActionPerformed();
+                    return true;
+                }
+            }
+            return false;
         }
-        public override void Update(GameTime gameTime)
+
+        public bool MoveDown()
         {
-            
+            Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X && x.Position.Y == Owner.Position.Y + Owner.Size.Y).FirstOrDefault();
+            //player wants to move
+            if (Owner.Components.OfType<PlayerComponent>().Any())
+            {
+                try
+                {
+                    //border in the way, cant move
+                    if (target.Components.OfType<BorderComponent>().Any())
+                        return false;
+                    //destroyable object in the way
+                    else if (target.Components.OfType<DestroyableComponent>().Any())
+                    {
+                        //destroy object
+                        target.Components.OfType<DestroyableComponent>().FirstOrDefault().Destroy();
+                        //move
+                        Owner.Position += new Vector2(0, Owner.Size.Y);
+                        base.OnActionPerformed();
+                        return true;
+
+                    }
+                }
+                catch
+                {
+                    //empty space, move
+                    Owner.Position += new Vector2(0, Owner.Size.Y);
+                    base.OnActionPerformed();
+                    return true;
+                }
+            }
+            else if (Owner.Components.OfType<GravityComponent>().Any())
+            {
+                //no other entity in the way
+                if (target == null)
+                {
+                    //move
+                    Owner.Position += new Vector2(0, Owner.Size.Y);
+                    base.OnActionPerformed();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace GameData.Sprites
             {
                 text = value;
                 float lastPos = position.X;
-                letters.ForEach(x => x.UnloadContent());
+                //letters.ForEach(x => x.UnloadContent());
                 letters.Clear();
                 foreach (char c in String)
                 {

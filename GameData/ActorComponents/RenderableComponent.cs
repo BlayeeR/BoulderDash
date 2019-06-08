@@ -21,6 +21,7 @@ namespace GameData.ActorComponents
         Rectangle actorRectangle;
         Texture2D actorTexture;
         public string ResourcePath;
+        public Rectangle AtlasRectangle;
 
         public override void Initialize(ContentManager content, Actor actor)
         {
@@ -32,11 +33,12 @@ namespace GameData.ActorComponents
         public override void Update(GameTime gameTime)
         {
             actorRectangle.Location = Owner.Position.ToPoint();
+            base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(actorTexture, actorRectangle, Color.White);
+            spriteBatch.Draw(actorTexture, actorRectangle, AtlasRectangle, Color.White);
         }
     }
 }
