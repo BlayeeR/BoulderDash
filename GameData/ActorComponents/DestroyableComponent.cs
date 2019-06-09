@@ -20,18 +20,13 @@ namespace GameData.ActorComponents
 
         public override void Initialize(ContentManager content, Actor owner)
         {
-            Destroyed += DestroyableComponent_Destroyed;
             base.Initialize(content, owner);
-        }
-
-        private void DestroyableComponent_Destroyed(object sender, EventArgs e)
-        {
-            base.OnActionPerformed();
         }
 
         public void Destroy()
         {
             Destroyed?.Invoke(Owner, null);
+            base.OnActionPerformed();
         }
     }
 }

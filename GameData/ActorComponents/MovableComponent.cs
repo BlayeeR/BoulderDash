@@ -59,6 +59,16 @@ namespace GameData.ActorComponents
                         return true;
 
                     }
+                    else if (target.Components.OfType<CollectableComponent>().Any())
+                    {
+                        //collect object
+                        target.Components.OfType<CollectableComponent>().FirstOrDefault().Collect();
+                        //move
+                        Owner.Position += new Vector2(Owner.Size.X, 0);
+                        base.OnActionPerformed();
+                        return true;
+
+                    }
                 }
                 catch
                 {
@@ -116,6 +126,16 @@ namespace GameData.ActorComponents
                         return true;
 
                     }
+                    else if (target.Components.OfType<CollectableComponent>().Any())
+                    {
+                        //collect object
+                        target.Components.OfType<CollectableComponent>().FirstOrDefault().Collect();
+                        //move
+                        Owner.Position += new Vector2(-Owner.Size.X, 0);
+                        base.OnActionPerformed();
+                        return true;
+
+                    }
                 }
                 catch
                 {
@@ -159,7 +179,15 @@ namespace GameData.ActorComponents
                         Owner.Position += new Vector2(0, -Owner.Size.Y);
                         base.OnActionPerformed();
                         return true;
-
+                    }
+                    else if (target.Components.OfType<CollectableComponent>().Any())
+                    {
+                        //collect object
+                        target.Components.OfType<CollectableComponent>().FirstOrDefault().Collect();
+                        //move
+                        Owner.Position += new Vector2(0, -Owner.Size.Y);
+                        base.OnActionPerformed();
+                        return true;
                     }
                 }
                 catch
@@ -195,6 +223,16 @@ namespace GameData.ActorComponents
                         return true;
 
                     }
+                    else if (target.Components.OfType<CollectableComponent>().Any())
+                    {
+                        //collect object
+                        target.Components.OfType<CollectableComponent>().FirstOrDefault().Collect();
+                        //move
+                        Owner.Position += new Vector2(0, Owner.Size.Y);
+                        base.OnActionPerformed();
+                        return true;
+
+                    }
                 }
                 catch
                 {
@@ -214,6 +252,14 @@ namespace GameData.ActorComponents
                     base.OnActionPerformed();
                     return true;
                 }
+                else if(target.Components.OfType<PlayerComponent>().Any())
+                {
+                    target.Components.OfType<PlayerComponent>().FirstOrDefault().Kill();
+                    Owner.Position += new Vector2(0, Owner.Size.Y);
+                    base.OnActionPerformed();
+                    return true;
+                }
+                
             }
             return false;
         }

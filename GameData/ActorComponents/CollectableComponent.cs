@@ -9,25 +9,23 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Microsoft.Xna.Framework;
-using GameShared;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using GameShared.Interfaces;
 
 namespace GameData.ActorComponents
 {
-    public class PlayerComponent : MovableComponent
+    public class CollectableComponent : ActorComponent
     {
-        public event EventHandler PlayerKilled;
+        public event EventHandler Collected;
+
         public override void Initialize(ContentManager content, Actor owner)
         {
             base.Initialize(content, owner);
         }
 
-        public void Kill()
+        public void Collect()
         {
-            PlayerKilled?.Invoke(Owner, null);
+            Collected?.Invoke(Owner, null);
+            base.OnActionPerformed();
         }
     }
 }

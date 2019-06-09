@@ -25,8 +25,11 @@ namespace GameData.Maps
 #pragma warning disable IDE0044 // Add readonly modifier
         private string Name, Description, DiamondsRequiredValue, TimeValue;
         [ContentSerializer]
-        private int SlowGrowth, DiamondValue, BonusDiamondValue;
-        private int DiamondsRequired, Time;
+        private int SlowGrowth;
+        public int DiamondValue, BonusDiamondValue;
+        [ContentSerializerIgnore]
+        public int DiamondsRequired, Time, Score=0, DiamondsCollected=0;
+        private double timer = 0;
         [ContentSerializer]
         private Color BackgroundColor1, BackgroundColor2, ForegroundColor;
         public Vector2 TileDimensions;
@@ -40,6 +43,11 @@ namespace GameData.Maps
         public void Update(GameTime gameTime)
         {
             Actors.ForEach(x=>x.Update(gameTime));
+            timer = (timer >= 1000) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            if(timer == 0)
+            {
+                Time--;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -101,6 +109,12 @@ namespace GameData.Maps
                 }
             }
             Actors.Where(x => x.Components.OfType<DestroyableComponent>().Any()).ToList().ForEach(x => x.Components.OfType<DestroyableComponent>().FirstOrDefault().Destroyed += ActorMap_ActorDestroyed);
+            Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).ToList().ForEach(x => x.Components.OfType<PlayerComponent>().FirstOrDefault().PlayerKilled += ActorMap_PlayerKilled);
+            Actors.Where(x => x.Components.OfType<CollectableComponent>().Any()).ToList().ForEach(x => x.Components.OfType<CollectableComponent>().FirstOrDefault().Collected += ActorMap_Collected);
+
+            //force 1lvl
+            Time = Int32.Parse(TimeValue.Split(" ").FirstOrDefault());
+            DiamondsRequired = Int32.Parse(DiamondsRequiredValue.Split(" ").FirstOrDefault());
 
             //take all actors who are affected by gravity
             Actors.Where(x => x.Components.OfType<GravityComponent>().Any()).ToList().ForEach(x =>
@@ -129,6 +143,32 @@ namespace GameData.Maps
             InputManager.Instance.OnFlickUp += Instance_OnFlickUp;
             InputManager.Instance.OnFlickLeft += Instance_OnFlickLeft;
             InputManager.Instance.OnFlickRight += Instance_OnFlickRight;
+        }
+
+        private void ActorMap_PlayerKilled(object sender, EventArgs e)
+        {
+            //change scene to ending, count score
+        }
+
+        private void ActorMap_Collected(object sender, EventArgs e)
+        {
+            Actors.Remove(sender as Actor);
+            (sender as Actor).Components.OfType<CollectableComponent>().FirstOrDefault().Collected -= ActorMap_Collected;
+            if (DiamondsRequired > DiamondsCollected)
+            {
+                Score += DiamondValue;
+            }
+            else
+            {
+                if(DiamondsRequired == DiamondsCollected)
+                {
+                    Actor exit = Actors.Where(x => x.Components.OfType<ExitComponent>().Any()).FirstOrDefault();
+                    exit.Components.Remove(exit.Components.OfType<BorderComponent>().FirstOrDefault());
+                    exit.Components.OfType<ExitComponent>().FirstOrDefault().Open();
+                }
+                Score += BonusDiamondValue;
+            }
+            DiamondsCollected++;
         }
 
         private void ActorMap_ActorDestroyed(object sender, EventArgs e)

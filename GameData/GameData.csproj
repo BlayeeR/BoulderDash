@@ -49,7 +49,9 @@
     <Compile Include="Actor.cs" />
     <Compile Include="ActorComponents\ActorComponent.cs" />
     <Compile Include="ActorComponents\BorderComponent.cs" />
+    <Compile Include="ActorComponents\CollectableComponent.cs" />
     <Compile Include="ActorComponents\DestroyableComponent.cs" />
+    <Compile Include="ActorComponents\ExitComponent.cs" />
     <Compile Include="ActorComponents\GravityComponent.cs" />
     <Compile Include="ActorComponents\MovableComponent.cs" />
     <Compile Include="ActorComponents\PlayerComponent.cs" />

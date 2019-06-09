@@ -10,24 +10,22 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
-using GameShared;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using GameShared.Interfaces;
 
 namespace GameData.ActorComponents
 {
-    public class PlayerComponent : MovableComponent
+    public class ExitComponent : ActorComponent
     {
-        public event EventHandler PlayerKilled;
+        public bool IsOpen { get; private set; }
         public override void Initialize(ContentManager content, Actor owner)
         {
+            IsOpen = false;
             base.Initialize(content, owner);
         }
-
-        public void Kill()
+        public void Open()
         {
-            PlayerKilled?.Invoke(Owner, null);
+            Owner.Components.OfType<RenderableComponent>().FirstOrDefault().AtlasRectangle = new Rectangle(32, 96, 16, 16);
+            IsOpen = true;
         }
     }
 }

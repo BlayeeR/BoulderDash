@@ -41,6 +41,7 @@ namespace GameData
         {
         }
 
+        [ContentSerializerIgnore]
         public List<Actor> Neighbours
         {
             get

@@ -25,7 +25,7 @@ namespace GameData.ActorComponents
         public Actor Owner { get; private set; }
         public virtual void Update(GameTime gameTime)
         {
-            timer = (timer >= 500) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            timer = (timer >= 400) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer == 0)
             {
                 if (fireEvent)
@@ -35,7 +35,7 @@ namespace GameData.ActorComponents
                     {
                         if (!x.Components.OfType<GravityComponent>().FirstOrDefault().MoveDown())
                         {//if cant
-                         //check neighbour in bottom left
+                            //check neighbour in bottom left
                             Actor temp = x.Neighbours.Where(y => y.Position.X == x.Position.X - x.Size.X && y.Position.Y == x.Position.Y + x.Size.Y).FirstOrDefault();
                             //if there is any try to move left
                             if (!(temp == null && x.Components.OfType<GravityComponent>().FirstOrDefault().MoveLeft()))

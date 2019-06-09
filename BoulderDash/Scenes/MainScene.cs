@@ -28,6 +28,7 @@ namespace BoulderDash.Scenes
         private readonly float guiSize = 0.0764f;
         private readonly RenderTarget2D guiWindow;
         private readonly RenderTarget2D mapWindow;
+        private double timer = 0;
         private Text guiText;
 
         public MainScene(Game1 game)
@@ -66,6 +67,14 @@ namespace BoulderDash.Scenes
             Camera.Update(gameTime);
             map.Update(gameTime);
             guiText.Update(gameTime);
+            timer = (timer >= 1000) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (timer == 0)
+            {
+                if(map.DiamondsRequired > map.DiamondsCollected)
+                    guiText.String =  $"[{map.DiamondsRequired}]/{map.DiamondValue} [{map.DiamondsCollected}] {map.Time} {map.Score}";
+                else
+                    guiText.String = $"///{map.BonusDiamondValue} [{map.DiamondsCollected}] {map.Time} {map.Score}";
+            }
         }
 
         public void LoadContent(ContentManager content)
@@ -77,7 +86,7 @@ namespace BoulderDash.Scenes
             Camera.Initialize();
             Camera.CalculateDeadZone(map.Size, map.TileDimensions);
             Camera.Focus = map.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
-            guiText = new Text(new Vector2(game.GetScaledResolution().X*0.06f, game.GetScaledResolution().Y*guiSize /4), "[12]/10 [00] 127 000000", Color.White);
+            guiText = new Text(new Vector2(game.GetScaledResolution().X*0.06f, game.GetScaledResolution().Y*guiSize /4), $"[{map.DiamondsRequired}]/{map.DiamondValue} [{map.DiamondsCollected}] {map.Time} {map.Score}", Color.White);
             guiText.LoadContent(content);
         }
 

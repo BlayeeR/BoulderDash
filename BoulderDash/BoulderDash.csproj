@@ -142,6 +142,7 @@
     </Content>
     <Content Include="Content\Actors\Diamond.xml" />
     <Content Include="Content\Actors\Dirt.xml" />
+    <Content Include="Content\Actors\Exit.xml" />
     <Content Include="Content\Actors\Wall.xml" />
     <Content Include="Content\Maps\1.xml">
       <SubType>Designer</SubType>
