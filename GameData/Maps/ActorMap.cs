@@ -52,8 +52,10 @@ namespace GameData.Maps
             if (timer == 0 && !ended)
             {
                 Time--;
+                if (Time == 0)
+                    Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault().Components.OfType<PlayerComponent>().FirstOrDefault().Kill();
             }
-            if(calculateScoreTimer == 0 && ended)
+            if(ended &&calculateScoreTimer == 0)
             {
                 if (Time == 0)
                 {
@@ -124,6 +126,7 @@ namespace GameData.Maps
                     if (actor != null)
                     {
                         actor.LoadContent(content);
+                        actor.Components.OfType<RenderableComponent>().FirstOrDefault().DrawColor = ForegroundColor;
                         actor.Owner = this;
                         actor.Position = new Vector2(j * TileDimensions.X, i * TileDimensions.Y);
                         Actors.Add(actor);

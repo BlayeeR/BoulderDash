@@ -21,6 +21,8 @@ namespace GameData.ActorComponents
         Rectangle actorRectangle;
         Texture2D actorTexture;
         public string ResourcePath;
+        [ContentSerializerIgnore]
+        public Color DrawColor;
         public Rectangle AtlasRectangle;
         [ContentSerializerIgnore]
         public bool DrawMe = true;
@@ -41,7 +43,7 @@ namespace GameData.ActorComponents
         public void Draw(SpriteBatch spriteBatch)
         {
             if(DrawMe)
-                spriteBatch.Draw(actorTexture, actorRectangle, AtlasRectangle, Color.White);
+                spriteBatch.Draw(actorTexture, actorRectangle, AtlasRectangle, DrawColor);
         }
     }
 }
