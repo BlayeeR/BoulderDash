@@ -28,6 +28,7 @@ namespace BoulderDash.Scenes
         private readonly float guiSize = 0.0764f;
         private readonly RenderTarget2D guiWindow;
         private readonly RenderTarget2D mapWindow;
+        private ContentManager content;
         private double timer = 0;
         private Text guiText;
 
@@ -67,7 +68,7 @@ namespace BoulderDash.Scenes
             Camera.Update(gameTime);
             map.Update(gameTime);
             guiText.Update(gameTime);
-            timer = (timer >= 1000) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            timer = (timer >= 100) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer == 0)
             {
                 if(map.DiamondsRequired > map.DiamondsCollected)
@@ -79,17 +80,34 @@ namespace BoulderDash.Scenes
 
         public void LoadContent(ContentManager content)
         {
+            this.content = content;
             InputManager.Instance.OnBackButtonClicked += InputManager_OnBackButtonClicked;
             using(ContentManager c = new ContentManager(content.ServiceProvider, content.RootDirectory))
-                map = c.Load<ActorMap>("Maps/1");
+            map = c.Load<ActorMap>("Maps/1");
             map.LoadContent(content);
             map.PlayerKilled += Map_PlayerKilled;
+            map.MapCompleted += Map_MapCompleted;
             Camera = new Camera2D(game, new Vector2(game.GetScaledResolution().X, game.GetScaledResolution().Y * (1 - guiSize)));
             Camera.Initialize();
             Camera.CalculateDeadZone(map.Size, map.TileDimensions);
             Camera.Focus = map.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
             guiText = new Text(new Vector2(game.GetScaledResolution().X*0.06f, game.GetScaledResolution().Y*guiSize /4), $"[{map.DiamondsRequired}]/{map.DiamondValue} [{map.DiamondsCollected}] {map.Time} {map.Score}", Color.White);
             guiText.LoadContent(content);
+        }
+
+        private void Map_MapCompleted(object sender, EventArgs e)
+        {
+            int id = map.ID, oldScore = map.Score;
+            id++;
+            Camera.Focus = new Actor() { Position = Vector2.Zero };
+            map.UnloadContent();
+            map.MapCompleted -= Map_MapCompleted;
+            using (ContentManager c = new ContentManager(content.ServiceProvider, content.RootDirectory))
+                map = c.Load<ActorMap>($"Maps/1");
+            map.LoadContent(content);
+            map.Score = oldScore; 
+            Camera.Focus = map.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
+            map.MapCompleted += Map_MapCompleted;
         }
 
         private void Map_PlayerKilled(object sender, EventArgs e)

@@ -16,6 +16,7 @@ namespace GameData.ActorComponents
 {
     public class ExitComponent : ActorComponent
     {
+        public event EventHandler ExitEntered;
         public bool IsOpen { get; private set; }
         public override void Initialize(ContentManager content, Actor owner)
         {
@@ -26,6 +27,13 @@ namespace GameData.ActorComponents
         {
             Owner.Components.OfType<RenderableComponent>().FirstOrDefault().AtlasRectangle = new Rectangle(32, 96, 16, 16);
             IsOpen = true;
+        }
+
+        public void OnEntered(Actor player)
+        {
+            Owner.Components.OfType<RenderableComponent>().FirstOrDefault().DrawMe = false;
+            player.Components.OfType<PlayerComponent>().FirstOrDefault().LockMovement = true;
+            ExitEntered?.Invoke(Owner, null);
         }
     }
 }

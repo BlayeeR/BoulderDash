@@ -17,6 +17,8 @@ namespace GameData.ActorComponents
     public class MovableComponent : ActorComponent
     {
         private bool tryKill = false;
+        [ContentSerializerIgnore]
+        public bool LockMovement = false;
         private Vector2 killPosition = Vector2.Zero;
         private double timer = 0;
 
@@ -39,6 +41,8 @@ namespace GameData.ActorComponents
 
         public bool MoveRight()
         {
+            if (LockMovement)
+                return false;
             Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X + Owner.Size.X && x.Position.Y == Owner.Position.Y).FirstOrDefault();
             //player wants to move
             if (Owner.Components.OfType<PlayerComponent>().Any())
@@ -81,6 +85,14 @@ namespace GameData.ActorComponents
                         return true;
 
                     }
+                    else if (target.Components.OfType<ExitComponent>().Any())
+                    {
+                        Owner.Position += new Vector2(Owner.Size.X, 0);
+                        if (target.Components.OfType<ExitComponent>().FirstOrDefault().IsOpen)
+                            target.Components.OfType<ExitComponent>().FirstOrDefault().OnEntered(Owner);
+                        base.OnActionPerformed();
+                        return true;
+                    }
                 }
                 catch
                 {
@@ -112,6 +124,8 @@ namespace GameData.ActorComponents
 
         public bool MoveLeft()
         {
+            if (LockMovement)
+                return false;
             Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X - Owner.Size.X && x.Position.Y == Owner.Position.Y).FirstOrDefault();
             //player wants to move
             if (Owner.Components.OfType<PlayerComponent>().Any())
@@ -154,6 +168,14 @@ namespace GameData.ActorComponents
                         return true;
 
                     }
+                    else if (target.Components.OfType<ExitComponent>().Any())
+                    {
+                        Owner.Position += new Vector2(-Owner.Size.X, 0);
+                        if (target.Components.OfType<ExitComponent>().FirstOrDefault().IsOpen)
+                            target.Components.OfType<ExitComponent>().FirstOrDefault().OnEntered(Owner);
+                        base.OnActionPerformed();
+                        return true;
+                    }
                 }
                 catch
                 {
@@ -184,6 +206,8 @@ namespace GameData.ActorComponents
 
         public bool MoveUp()
         {
+            if (LockMovement)
+                return false;
             Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X && x.Position.Y == Owner.Position.Y-Owner.Size.Y).FirstOrDefault();
             //player wants to move
             if (Owner.Components.OfType<PlayerComponent>().Any())
@@ -212,6 +236,14 @@ namespace GameData.ActorComponents
                         base.OnActionPerformed();
                         return true;
                     }
+                    else if (target.Components.OfType<ExitComponent>().Any())
+                    {
+                        Owner.Position += new Vector2(0, -Owner.Size.Y);
+                        if (target.Components.OfType<ExitComponent>().FirstOrDefault().IsOpen)
+                            target.Components.OfType<ExitComponent>().FirstOrDefault().OnEntered(Owner);
+                        base.OnActionPerformed();
+                        return true;
+                    }
                 }
                 catch
                 {
@@ -226,6 +258,8 @@ namespace GameData.ActorComponents
 
         public bool MoveDown()
         {
+            if (LockMovement)
+                return false;
             Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X && x.Position.Y == Owner.Position.Y + Owner.Size.Y).FirstOrDefault();
             //player wants to move
             if (Owner.Components.OfType<PlayerComponent>().Any())
@@ -255,6 +289,14 @@ namespace GameData.ActorComponents
                         base.OnActionPerformed();
                         return true;
 
+                    }
+                    else if (target.Components.OfType<ExitComponent>().Any())
+                    {
+                        Owner.Position += new Vector2(0, Owner.Size.Y);
+                        if (target.Components.OfType<ExitComponent>().FirstOrDefault().IsOpen)
+                            target.Components.OfType<ExitComponent>().FirstOrDefault().OnEntered(Owner);
+                        base.OnActionPerformed();
+                        return true;
                     }
                 }
                 catch
