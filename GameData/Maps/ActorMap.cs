@@ -117,27 +117,27 @@ namespace GameData.Maps
             Time = Int32.Parse(TimeValue.Split(" ").FirstOrDefault());
             DiamondsRequired = Int32.Parse(DiamondsRequiredValue.Split(" ").FirstOrDefault());
 
-            //take all actors who are affected by gravity
-            Actors.Where(x => x.Components.OfType<GravityComponent>().Any()).ToList().ForEach(x =>
-             {
-                 //try to move down 
-                 if (!x.Components.OfType<GravityComponent>().FirstOrDefault().MoveDown())
-                 {//if cant
-                     //check neighbour in bottom left
-                     Actor temp = x.Neighbours.Where(y => y.Position.X == x.Position.X - x.Size.X && y.Position.Y == x.Position.Y + x.Size.Y).FirstOrDefault();
-                     //if there is any try to move left
-                     if (!(temp == null && x.Components.OfType<GravityComponent>().FirstOrDefault().MoveLeft()))
-                     {//cant move left, entity in the way
-                         //check right bottom
-                         temp = x.Neighbours.Where(y => y.Position.X == x.Position.X + x.Size.X && y.Position.Y == x.Position.Y + x.Size.Y).FirstOrDefault();
-                         //empty
-                         if (temp == null)
-                             //try move
-                             x.Components.OfType<GravityComponent>().FirstOrDefault().MoveRight();
-                     }
+            ////take all actors who are affected by gravity
+            //Actors.Where(x => x.Components.OfType<GravityComponent>().Any()).ToList().ForEach(x =>
+            // {
+            //     //try to move down 
+            //     if (!x.Components.OfType<GravityComponent>().FirstOrDefault().MoveDown())
+            //     {//if cant
+            //         //check neighbour in bottom left
+            //         Actor temp = x.Neighbours.Where(y => y.Position.X == x.Position.X - x.Size.X && y.Position.Y == x.Position.Y + x.Size.Y).FirstOrDefault();
+            //         //if there is any try to move left
+            //         if (!(temp == null && x.Components.OfType<GravityComponent>().FirstOrDefault().MoveLeft()))
+            //         {//cant move left, entity in the way
+            //             //check right bottom
+            //             temp = x.Neighbours.Where(y => y.Position.X == x.Position.X + x.Size.X && y.Position.Y == x.Position.Y + x.Size.Y).FirstOrDefault();
+            //             //empty
+            //             if (temp == null)
+            //                 //try move
+            //                 x.Components.OfType<GravityComponent>().FirstOrDefault().MoveRight();
+            //         }
 
-                 } 
-             });
+            //     } 
+            // });
 
             Size = new Vector2(Actors.Last().Position.X-Actors[0].Position.X+TileDimensions.X,Actors.Last().Position.Y-Actors[0].Position.Y+TileDimensions.Y);
             InputManager.Instance.OnFlickDown += Instance_OnFlickDown;

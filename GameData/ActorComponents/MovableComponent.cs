@@ -16,14 +16,26 @@ namespace GameData.ActorComponents
 {
     public class MovableComponent : ActorComponent
     {
+        private bool tryKill = false;
+        private Vector2 killPosition = Vector2.Zero;
         private double timer = 0;
-        private bool fireEvent = false;
+
+        public override void Update(GameTime gameTime)
+        {
+            timer = (timer >= 1000) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (timer == 0 && tryKill)
+            {
+                if (Owner.Owner.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault().Position == killPosition)
+                    Owner.Owner.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault().Components.OfType<PlayerComponent>().FirstOrDefault().Kill();
+                tryKill = false;
+            }
+            base.Update(gameTime);
+        }
 
         public override void Initialize(ContentManager content, Actor owner)
         {
             base.Initialize(content, owner);
         }
-
 
         public bool MoveRight()
         {
@@ -81,11 +93,17 @@ namespace GameData.ActorComponents
             else //object wants to move
             {
                 //no other entity in the way
-                if(target == null)
+                if(target == null || target.Components.OfType<PlayerComponent>().Any())
                 {
                     //move
-                    Owner.Position += new Vector2(Owner.Size.X, 0);
+
+                    if (target != null)
+                    {
+                        killPosition = target.Position;
+                        tryKill = true;
+                    }
                     base.OnActionPerformed();
+                    Owner.Position += new Vector2(Owner.Size.X, 0);
                     return true;
                 }
             }
@@ -148,9 +166,14 @@ namespace GameData.ActorComponents
             else //object wants to move
             {
                 //no other entity in the way
-                if (target == null)
+                if (target == null || target.Components.OfType<PlayerComponent>().Any())
                 {
                     //move
+                    if (target != null)
+                    {
+                        killPosition = target.Position;
+                        tryKill = true;
+                    }
                     Owner.Position += new Vector2(-Owner.Size.X, 0);
                     base.OnActionPerformed();
                     return true;
@@ -254,7 +277,8 @@ namespace GameData.ActorComponents
                 }
                 else if(target.Components.OfType<PlayerComponent>().Any())
                 {
-                    target.Components.OfType<PlayerComponent>().FirstOrDefault().Kill();
+                    killPosition = target.Position;
+                    tryKill = true;
                     Owner.Position += new Vector2(0, Owner.Size.Y);
                     base.OnActionPerformed();
                     return true;
