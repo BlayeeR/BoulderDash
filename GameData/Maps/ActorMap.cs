@@ -39,6 +39,7 @@ namespace GameData.Maps
         public List<Actor> Actors = new List<Actor>();
         [ContentSerializerIgnore]
         public Vector2 Size;
+        public event EventHandler PlayerKilled;
 #pragma warning restore IDE0044 // Add readonly modifier
         public void Update(GameTime gameTime)
         {
@@ -147,7 +148,7 @@ namespace GameData.Maps
 
         private void ActorMap_PlayerKilled(object sender, EventArgs e)
         {
-            //change scene to ending, count score
+            PlayerKilled?.Invoke(sender, null);
         }
 
         private void ActorMap_Collected(object sender, EventArgs e)

@@ -80,8 +80,10 @@ namespace BoulderDash.Scenes
         public void LoadContent(ContentManager content)
         {
             InputManager.Instance.OnBackButtonClicked += InputManager_OnBackButtonClicked;
-            map = content.Load<ActorMap>("Maps/1");
+            using(ContentManager c = new ContentManager(content.ServiceProvider, content.RootDirectory))
+                map = c.Load<ActorMap>("Maps/1");
             map.LoadContent(content);
+            map.PlayerKilled += Map_PlayerKilled;
             Camera = new Camera2D(game, new Vector2(game.GetScaledResolution().X, game.GetScaledResolution().Y * (1 - guiSize)));
             Camera.Initialize();
             Camera.CalculateDeadZone(map.Size, map.TileDimensions);
@@ -90,9 +92,16 @@ namespace BoulderDash.Scenes
             guiText.LoadContent(content);
         }
 
+        private void Map_PlayerKilled(object sender, EventArgs e)
+        {
+            if (SceneManager.Instance.CurrentScene == this)
+                SceneManager.Instance.ChangeScene(new DeathScene(game, map.Score));
+        }
+
         private void InputManager_OnBackButtonClicked(object sender, EventArgs e)
         {
-            Game1.Stop = true;
+            if(SceneManager.Instance.CurrentScene == this)
+                SceneManager.Instance.AddScene(new PauseScene(game));
         }
 
         public void UnloadContent()

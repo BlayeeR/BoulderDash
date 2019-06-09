@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GameData.Sprites;
+using GameShared;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -47,10 +48,10 @@ namespace BoulderDash.Scenes
 
         public void LoadContent(ContentManager content)
         {
+            InputManager.Instance.OnBackButtonClicked += Instance_OnBackButtonClicked;
             float x = game.GetScaledResolution().X, y = game.GetScaledResolution().Y;
             logo = new Image(new Vector2(x*0.1f,0), new Vector2(x*0.8f, x*0.4f), "Textures/Logo", Color.White, Vector2.Zero);
             logo.LoadContent(content);
-
             levelText = new Text(Vector2.Zero, "Level:", Color.White);
             levelText.LoadContent(content);
             levelNumber = new Text(Vector2.Zero, levels[currentLevel], Color.Blue);
@@ -73,9 +74,16 @@ namespace BoulderDash.Scenes
             playText.Clicked += PlayText_Clicked;
         }
 
+        private void Instance_OnBackButtonClicked(object sender, EventArgs e)
+        {
+            if(SceneManager.Instance.CurrentScene == this)
+                Game1.Stop = true;
+        }
+
         private void PlayText_Clicked(object sender, EventArgs e)
         {
-            SceneManager.Instance.ChangeScene(new MainScene(game));
+            if (SceneManager.Instance.CurrentScene == this)
+                SceneManager.Instance.ChangeScene(new MainScene(game));
         }
 
         private void CaveNumber_Clicked(object sender, EventArgs e)
