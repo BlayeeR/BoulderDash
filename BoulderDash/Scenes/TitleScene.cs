@@ -14,6 +14,7 @@ using GameShared;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace BoulderDash.Scenes
 {
@@ -21,6 +22,7 @@ namespace BoulderDash.Scenes
     {
         private Image logo;
         private Text levelText, caveText, levelNumber, caveNumber, playText;
+        private Song theme;
         private int currentLevel = 0, currentCave = 0;
         private string[] levels = { "1", "2", "3", "4", "5"}, caves = { "Intro",      "Rooms",        "Maze",       "Butterflies",
                                                                     "Guards",     "Firefly dens", "Amoeba",     "Enchanted wall",
@@ -72,6 +74,10 @@ namespace BoulderDash.Scenes
             playText.LoadContent(content);
             playText.Position = new Vector2((x - playText.Size.X) / 2, y * 0.92f);
             playText.Clicked += PlayText_Clicked;
+
+            theme = content.Load<Song>("Sounds/Theme");
+            MediaPlayer.Play(theme);
+            MediaPlayer.IsRepeating = true;
         }
 
         private void Instance_OnBackButtonClicked(object sender, EventArgs e)
@@ -82,6 +88,8 @@ namespace BoulderDash.Scenes
 
         private void PlayText_Clicked(object sender, EventArgs e)
         {
+            MediaPlayer.Stop();
+            MediaPlayer.IsRepeating = false;
             if (SceneManager.Instance.CurrentScene == this)
                 SceneManager.Instance.ChangeScene(new MainScene(game));
         }
@@ -110,6 +118,7 @@ namespace BoulderDash.Scenes
             playText.UnloadContent();
             caveNumber.Clicked -= CaveNumber_Clicked;
             levelNumber.Clicked -= LevelNumber_Clicked;
+            MediaPlayer.Stop();
         }
 
         public void Update(GameTime gameTime)

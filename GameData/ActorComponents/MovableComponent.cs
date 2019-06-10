@@ -24,7 +24,7 @@ namespace GameData.ActorComponents
 
         public override void Update(GameTime gameTime)
         {
-            timer = (timer >= 1000) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            timer = (timer >= 600) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer == 0 && tryKill)
             {
                 if (Owner.Owner.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault().Position == killPosition)

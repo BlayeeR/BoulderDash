@@ -16,6 +16,7 @@ using GameShared.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace GameData.Maps
 {
@@ -36,6 +37,8 @@ namespace GameData.Maps
         [ContentSerializer]
         private Color BackgroundColor1, BackgroundColor2, ForegroundColor;
         public Vector2 TileDimensions;
+        [ContentSerializerIgnore]
+        public Song MapStartSound, MapEndSound;
         [ContentSerializer(ElementName = "Raw")]
         private List<string> raw;
         [ContentSerializerIgnore]
@@ -147,11 +150,16 @@ namespace GameData.Maps
             InputManager.Instance.OnFlickUp += Instance_OnFlickUp;
             InputManager.Instance.OnFlickLeft += Instance_OnFlickLeft;
             InputManager.Instance.OnFlickRight += Instance_OnFlickRight;
+            MapStartSound = content.Load<Song>("Sounds/MapStart");
+            MapEndSound = content.Load<Song>("Sounds/MapComplete");
+            MediaPlayer.Play(MapStartSound);
         }
 
         private void ActorMap_ExitEntered(object sender, EventArgs e)
         {
             ended = true;
+            MediaPlayer.Stop();
+            MediaPlayer.Play(MapEndSound);
         }
 
         private void ActorMap_PlayerKilled(object sender, EventArgs e)

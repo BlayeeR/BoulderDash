@@ -96,6 +96,12 @@
     <AndroidAsset Include="Assets\Content\Actors\Diamond.xnb" />
     <AndroidAsset Include="Assets\Content\Actors\Wall.xnb" />
     <AndroidAsset Include="Assets\Content\Actors\Exit.xnb" />
+    <AndroidAsset Include="Assets\Content\Sounds\Theme.xnb" />
+    <AndroidAsset Include="Assets\Content\Sounds\Collect.xnb" />
+    <AndroidAsset Include="Assets\Content\Sounds\MapComplete.xnb" />
+    <AndroidAsset Include="Assets\Content\Sounds\MapStart.xnb" />
+    <AndroidAsset Include="Assets\Content\Sounds\Move.xnb" />
+    <AndroidAsset Include="Assets\Content\Sounds\RockHittingGround.xnb" />
     <None Include="Content\Actors\Player.xml" />
     <None Include="Content\Content.mgcb" />
     <None Include="Content\Fonts\DefaultFont.spritefont">
@@ -137,6 +143,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Content\Sounds\Theme.m4a" />
+    <AndroidAsset Include="Assets\Content\Sounds\Collect.m4a" />
+    <AndroidAsset Include="Assets\Content\Sounds\MapComplete.m4a" />
+    <AndroidAsset Include="Assets\Content\Sounds\MapStart.m4a" />
+    <AndroidAsset Include="Assets\Content\Sounds\Move.m4a" />
+    <AndroidAsset Include="Assets\Content\Sounds\RockHittingGround.m4a" />
     <Content Include="Content\Actors\Border.xml">
       <SubType>Designer</SubType>
     </Content>

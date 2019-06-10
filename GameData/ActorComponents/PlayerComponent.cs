@@ -14,6 +14,7 @@ using GameShared;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameShared.Interfaces;
+using Microsoft.Xna.Framework.Media;
 
 namespace GameData.ActorComponents
 {
@@ -21,11 +22,20 @@ namespace GameData.ActorComponents
     {
         private double timer = 0;
         private bool killed = false;
+        private Song MovedSound;
 
         public event EventHandler PlayerKilled;
         public override void Initialize(ContentManager content, Actor owner)
         {
+            MovedSound = content.Load<Song>("Sounds/Move");
+            base.ActionPerformed += PlayerComponent_ActionPerformed;
             base.Initialize(content, owner);
+        }
+
+        private void PlayerComponent_ActionPerformed(object sender, EventArgs e)
+        {
+            if(MediaPlayer.State != MediaState.Playing)
+                MediaPlayer.Play(MovedSound);
         }
 
         public override void Update(GameTime gameTime)
