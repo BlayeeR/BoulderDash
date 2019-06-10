@@ -24,8 +24,8 @@ namespace BoulderDash.Scenes
         private Text levelText, caveText, levelNumber, caveNumber, playText;
         private Song theme;
         private int currentLevel = 0, currentCave = 0;
-        private string[] levels = { "1", "2", "3", "4", "5" }, caves = { "Intro",      "Rooms",        "Maze",       "Butterflies",
-                                                                    "Guards" };//,     "Firefly dens", "Amoeba",     "Enchanted wall",
+        private string[] levels = { "1", "2", "3", "4", "5" }, caves = { "Intro", "Rooms", "Maze" };//,       "Butterflies",
+                                                                    //"Guards" };//,     "Firefly dens", "Amoeba",     "Enchanted wall",
                                                                     //"Greed",      "Tracks",       "Crowd",      "Walls",\
                                                                     //"Apocalypse", "Zigzag",       "Funnel",     "Enchanted boxes",
                                                                     //"Interval 1", "Interval 2", "Interval 3", "Interval 4"};
@@ -91,7 +91,7 @@ namespace BoulderDash.Scenes
             MediaPlayer.Stop();
             MediaPlayer.IsRepeating = false;
             if (SceneManager.Instance.CurrentScene == this)
-                SceneManager.Instance.ChangeScene(new MainScene(game));
+                SceneManager.Instance.ChangeScene(new MainScene(game, currentCave+1));
         }
 
         private void CaveNumber_Clicked(object sender, EventArgs e)

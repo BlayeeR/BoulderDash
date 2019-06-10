@@ -32,10 +32,12 @@ namespace BoulderDash.Scenes
         private ContentManager content;
         private double timer = 0;
         private Text guiText;
+        private int firstMap = 1;
 
-        public MainScene(Game1 game)
+        public MainScene(Game1 game, int mapID)
         {
             this.game = game;
+            this.firstMap = mapID;
             guiWindow = new RenderTarget2D(game.GraphicsDevice, (int)game.GetScaledResolution().X, (int)(game.GetScaledResolution().Y * guiSize));
             mapWindow = new RenderTarget2D(game.GraphicsDevice, (int)game.GetScaledResolution().X, (int)(game.GetScaledResolution().Y*(1-guiSize)));
         }
@@ -83,8 +85,15 @@ namespace BoulderDash.Scenes
         {
             this.content = content;
             InputManager.Instance.OnBackButtonClicked += InputManager_OnBackButtonClicked;
-            using(ContentManager c = new ContentManager(content.ServiceProvider, content.RootDirectory))
-            map = c.Load<ActorMap>("Maps/1");
+            using (ContentManager c = new ContentManager(content.ServiceProvider, content.RootDirectory))
+                try
+                {
+                    map = c.Load<ActorMap>($"Maps/{firstMap}");
+                }
+                catch
+                {
+                    map = c.Load<ActorMap>($"Maps/1");
+                }
             map.LoadContent(content);
             map.PlayerKilled += Map_PlayerKilled;
             map.MapCompleted += Map_MapCompleted;
