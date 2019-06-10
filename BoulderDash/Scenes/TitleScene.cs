@@ -24,11 +24,11 @@ namespace BoulderDash.Scenes
         private Text levelText, caveText, levelNumber, caveNumber, playText;
         private Song theme;
         private int currentLevel = 0, currentCave = 0;
-        private string[] levels = { "1", "2", "3", "4", "5"}, caves = { "Intro",      "Rooms",        "Maze",       "Butterflies",
-                                                                    "Guards",     "Firefly dens", "Amoeba",     "Enchanted wall",
-                                                                    "Greed",      "Tracks",       "Crowd",      "Walls",
-                                                                    "Apocalypse", "Zigzag",       "Funnel",     "Enchanted boxes",
-                                                                    "Interval 1", "Interval 2", "Interval 3", "Interval 4"};
+        private string[] levels = { "1", "2", "3", "4", "5" }, caves = { "Intro",      "Rooms",        "Maze",       "Butterflies",
+                                                                    "Guards" };//,     "Firefly dens", "Amoeba",     "Enchanted wall",
+                                                                    //"Greed",      "Tracks",       "Crowd",      "Walls",\
+                                                                    //"Apocalypse", "Zigzag",       "Funnel",     "Enchanted boxes",
+                                                                    //"Interval 1", "Interval 2", "Interval 3", "Interval 4"};
         private Game1 game;
 
         public TitleScene(Game1 game)
@@ -40,8 +40,8 @@ namespace BoulderDash.Scenes
         {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             logo.Draw(spriteBatch);
-            levelText.Draw(spriteBatch);
-            levelNumber.Draw(spriteBatch);
+            //levelText.Draw(spriteBatch);
+            //levelNumber.Draw(spriteBatch);
             caveText.Draw(spriteBatch);
             caveNumber.Draw(spriteBatch);
             playText.Draw(spriteBatch);
@@ -52,7 +52,7 @@ namespace BoulderDash.Scenes
         {
             InputManager.Instance.OnBackButtonClicked += Instance_OnBackButtonClicked;
             float x = game.GetScaledResolution().X, y = game.GetScaledResolution().Y;
-            logo = new Image(new Vector2(x*0.1f,0), new Vector2(x*0.8f, x*0.4f), "Textures/Logo", Color.White, Vector2.Zero);
+            logo = new Image(new Vector2(x*0.1f,0), new Vector2(x*0.8f, y*0.8f), "Textures/Logo", Color.White, Vector2.Zero);
             logo.LoadContent(content);
             levelText = new Text(Vector2.Zero, "Level:", Color.White);
             levelText.LoadContent(content);
@@ -103,9 +103,9 @@ namespace BoulderDash.Scenes
 
         private void LevelNumber_Clicked(object sender, EventArgs e)
         {
-            levelNumber.String = levels[++currentLevel >= levels.Length ? currentLevel = 0 : currentLevel];
-            levelText.Position = new Vector2((game.GetScaledResolution().X - (levelText.Size.X + levelNumber.Size.X)) / 2, game.GetScaledResolution().Y * 0.72f);
-            levelNumber.Position = new Vector2(levelText.Position.X + levelText.Size.X, levelText.Position.Y);
+            //levelNumber.String = levels[++currentLevel >= levels.Length ? currentLevel = 0 : currentLevel];
+            //levelText.Position = new Vector2((game.GetScaledResolution().X - (levelText.Size.X + levelNumber.Size.X)) / 2, game.GetScaledResolution().Y * 0.72f);
+            //levelNumber.Position = new Vector2(levelText.Position.X + levelText.Size.X, levelText.Position.Y);
         }
 
         public void UnloadContent()

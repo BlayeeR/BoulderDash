@@ -70,6 +70,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\DeathScene.cs" />
+    <Compile Include="Scenes\EndingScene.cs" />
     <Compile Include="Scenes\IScene.cs" />
     <Compile Include="Scenes\MainScene.cs" />
     <Compile Include="Scenes\PauseScene.cs" />
@@ -77,16 +78,6 @@
     <Compile Include="Scenes\TitleScene.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Content\Fonts\DefaultFont.xnb" />
-    <AndroidAsset Include="Assets\Content\Menus\TitleMenu.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\BorderWall.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Boulder.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\ClosedExit.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Diamond.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Dirt.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Player.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Wall.xnb" />
-    <AndroidAsset Include="Assets\Content\Textures\Logo.xnb" />
     <AndroidAsset Include="Assets\Content\Textures\Sprites.xnb" />
     <AndroidAsset Include="Assets\Content\Maps\1.xnb" />
     <AndroidAsset Include="Assets\Content\Actors\Border.xnb" />
@@ -102,11 +93,11 @@
     <AndroidAsset Include="Assets\Content\Sounds\MapStart.xnb" />
     <AndroidAsset Include="Assets\Content\Sounds\Move.xnb" />
     <AndroidAsset Include="Assets\Content\Sounds\RockHittingGround.xnb" />
+    <AndroidAsset Include="Assets\Content\Textures\Logo.xnb" />
+    <AndroidAsset Include="Assets\Content\Maps\2.xnb" />
+    <AndroidAsset Include="Assets\Content\Maps\3.xnb" />
     <None Include="Content\Actors\Player.xml" />
     <None Include="Content\Content.mgcb" />
-    <None Include="Content\Fonts\DefaultFont.spritefont">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
@@ -117,8 +108,6 @@
     <AndroidResource Include="Resources\Drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Content\Sprites\" />
-    <Folder Include="Content\Sprites\" />
     <Folder Include="Resources\Layout\" />
   </ItemGroup>
   <ItemGroup>
@@ -159,12 +148,13 @@
     <Content Include="Content\Actors\Dirt.xml" />
     <Content Include="Content\Actors\Exit.xml" />
     <Content Include="Content\Actors\Wall.xml" />
+    <Content Include="Content\Maps\2.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\Maps\1.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Content\Menus\TitleMenu.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Content\Maps\3.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

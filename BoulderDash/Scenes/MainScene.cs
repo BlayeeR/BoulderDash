@@ -103,8 +103,16 @@ namespace BoulderDash.Scenes
             Camera.Focus = new Actor() { Position = Vector2.Zero };
             map.UnloadContent();
             map.MapCompleted -= Map_MapCompleted;
-            using (ContentManager c = new ContentManager(content.ServiceProvider, content.RootDirectory))
-                map = c.Load<ActorMap>($"Maps/1");
+            try
+            {
+                using (ContentManager c = new ContentManager(content.ServiceProvider, content.RootDirectory))
+                    map = c.Load<ActorMap>($"Maps/{id}");
+            }
+            catch
+            {
+                if(SceneManager.Instance.CurrentScene == this)
+                    SceneManager.Instance.ChangeScene(new EndingScene(game, oldScore));
+            }
             map.LoadContent(content);
             map.Score = oldScore; 
             Camera.Focus = map.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
