@@ -56,7 +56,6 @@
     <Compile Include="ActorComponents\MovableComponent.cs" />
     <Compile Include="ActorComponents\PlayerComponent.cs" />
     <Compile Include="ActorComponents\RenderableComponent.cs" />
-    <Compile Include="Maps\TileManager.cs" />
     <Compile Include="Maps\ActorMap.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />

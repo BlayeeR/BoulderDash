@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace GameData
 {
-    public class Actor : IDraw, IUpdate, ILoad, IFocusable
+    public class Actor : IComponent, IFocusable
     {
         public string Name;
         public uint ID;

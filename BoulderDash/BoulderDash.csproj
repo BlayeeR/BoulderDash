@@ -96,6 +96,7 @@
     <AndroidAsset Include="Assets\Content\Textures\Logo.xnb" />
     <AndroidAsset Include="Assets\Content\Maps\2.xnb" />
     <AndroidAsset Include="Assets\Content\Maps\3.xnb" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Content\Actors\Player.xml" />
     <None Include="Content\Content.mgcb" />
     <None Include="Resources\AboutResources.txt" />
@@ -154,7 +155,9 @@
     <Content Include="Content\Maps\1.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Content\Maps\3.xml" />
+    <Content Include="Content\Maps\3.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
