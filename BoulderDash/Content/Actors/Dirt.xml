@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GameData.Actor">
+    <Position>50 50</Position>
+    <Name>Dirt</Name>
+    <ID>3</ID>
+    <Components>
+      <Item Type="RenderableComponent">
+        <ResourcePath>Textures/Sprites</ResourcePath>
+        <AtlasRectangle>16 112 16 16</AtlasRectangle>
+      </Item>
+      <Item Type="DestroyableComponent"/>
+    </Components>
+  </Asset>
+</XnaContent>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GameData.Maps.ActorMap">
+    <ID>2</ID>
+    <Description>Pick up jewels, but you must move boulders to get all jewels</Description>
+    <DiamondsRequiredValue>10 12 9 13 10</DiamondsRequiredValue>
+    <TimeValue>150 110 70 70 70</TimeValue>
+    <SlowGrowth>14</SlowGrowth>
+    <DiamondValue>20</DiamondValue>
+    <BonusDiamondValue>50</BonusDiamondValue>
+    <BackgroundColor1>FFFFFF</BackgroundColor1>
+    <BackgroundColor2>FFFFFF</BackgroundColor2>
+    <ForegroundColor>9B51A5</ForegroundColor>
+    <TileDimensions>16 16</TileDimensions>
+    <Raw>
+      <Item>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</Item>
+      <Item>W.r..r..w.r...d.w... .r.wr......w..rr..W</Item>
+      <Item>W.......w......rwrr. ...w ..d...w....r.W</Item>
+      <Item>W                                      W</Item>
+      <Item>Wd......w.r....rw.r. .. w..r..d.w..r.r.W</Item>
+      <Item>W.......w.r....rw.r. r..w.....r.w... ..W</Item>
+      <Item>Wwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwW</Item>
+      <Item>W....rr.w..r....w... ..rw....r..w.....rW</Item>
+      <Item>W.......w.. ....w... ...w....r. w.....rW</Item>
+      <Item>W                                      W</Item>
+      <Item>Wr..r...w....r..w..r ...w......dwr.....W</Item>
+      <Item>Wr....r.w..r..r.w... . rw.......wr...r.W</Item>
+      <Item>W.r.....w...r...w... . rw.......w r..r.W</Item>
+      <Item>Wwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwW</Item>
+      <Item>Wr.  q..w....r.rw... ...w.rd..r.w......W</Item>
+      <Item>Wr.  q..w....r.rw... ...w.rd..r.w......W</Item>
+      <Item>W                                      W</Item>
+      <Item>Wd.. .r.wr....r.w.r. ..rw.r.r...w......W</Item>
+      <Item>W.....r.wr..d...w... r..w..r....w...rr W</Item>
+      <Item>W.d... rw..r....w.Xd r..w. .....w...rr W</Item>
+      <Item>W.r.... w.. ..r.w.P. ...w....r.rw.... .W</Item>
+      <Item>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</Item>
+    </Raw>
+  </Asset>
+</XnaContent>

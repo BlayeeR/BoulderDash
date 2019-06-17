@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GameData.Maps.ActorMap">
+    <ID>3</ID>
+    <Description>Pick up jewels. You must get every jewel to exit</Description>
+    <DiamondsRequiredValue>24 23 24 23 21</DiamondsRequiredValue>
+    <TimeValue>150 100 90 80 70</TimeValue>
+    <SlowGrowth>0</SlowGrowth>
+    <DiamondValue>15</DiamondValue>
+    <BonusDiamondValue>0</BonusDiamondValue>
+    <BackgroundColor1>FFFFFF</BackgroundColor1>
+    <BackgroundColor2>FFFFFF</BackgroundColor2>
+    <ForegroundColor>9B6739</ForegroundColor>
+    <TileDimensions>16 16</TileDimensions>
+    <Raw>
+      <Item>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</Item>
+      <Item>Wr.ww.wrr.w...rwr..r....w...r.....rw.d.W</Item>
+      <Item>W..Xw.d.r.w...www..w.r....r..r.r...w.wrW</Item>
+      <Item>W....w..rd..r....w.....r.wwr.......w.wwW</Item>
+      <Item>Wd.w..wrwr..r....w...r......r.rr......wW</Item>
+      <Item>Wr.w...w..r.ww..r.wwd.......r.rr......wW</Item>
+      <Item>Wrr..r....w...r......r.rr......r..dww..W</Item>
+      <Item>W..r.ww..r.rr...w....r.rr......w..r.w.rW</Item>
+      <Item>W..w...d......d.r..wwr..r.w.wr..wr..d.rW</Item>
+      <Item>Wr.r....w.ww..d.r..wwr..r..d.w...w..r.wW</Item>
+      <Item>W.r.ww.....rrwr..d.w.wr..wr...wr..d.r..W</Item>
+      <Item>Ww.ww......rrwr..r.w.ww...w..r.ww..r.wwW</Item>
+      <Item>W.w.r.r.w...wwr..r....w...r.....ww.r.wwW</Item>
+      <Item>W.w.r.r.w.d.w.wr..wr....r..r.rr....w...W</Item>
+      <Item>Ww..wrwr..r....w...d...w.rw......w.ww.dW</Item>
+      <Item>Ww...wwr..w.d...wr..r.r...r.wr......w..W</Item>
+      <Item>Ww.d....r.ww..r.wwr.......r.wr......w..W</Item>
+      <Item>W..r....w...r......r.rr......w..r.w...wW</Item>
+      <Item>Wr.ww..r.ww...w....r.rr......w..rd..r..W</Item>
+      <Item>Ww...r......r.rd......r...ww..wr..d.w..W</Item>
+      <Item>Wrr...w.....r.rd......w..r.wd.d.rw.r...W</Item>
+      <Item>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</Item>
+    </Raw>
+  </Asset>
+</XnaContent>

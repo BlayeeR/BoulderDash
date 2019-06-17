@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GameData.Maps.ActorMap">
+    <ID>1</ID>
+    <Description>Pick up jewels and exit before time is up</Description>
+    <DiamondsRequiredValue>12 12 12 12 12</DiamondsRequiredValue>
+    <TimeValue>150 110 70 40 30</TimeValue>
+    <SlowGrowth>20</SlowGrowth>
+    <DiamondValue>10</DiamondValue>
+    <BonusDiamondValue>15</BonusDiamondValue>
+    <BackgroundColor1>FFFFFF</BackgroundColor1>
+    <BackgroundColor2>FFFFFF</BackgroundColor2>
+    <ForegroundColor>ADADAD</ForegroundColor>
+    <TileDimensions>16 16</TileDimensions>
+    <Raw>
+      <Item>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</Item>
+      <Item>W...... ..d.r .....r.r....... ....r....W</Item>
+      <Item>W.rXr...... .........rd..r.... ..... ..W</Item>
+      <Item>W.......... ..r.....r.r..r........r....W</Item>
+      <Item>Wr.rr.........r......r..r....r...r.....W</Item>
+      <Item>Wr. r......... r..r........r......r.rr.W</Item>
+      <Item>W... ..r........r.....r. r........r.rr.W</Item>
+      <Item>Wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww...r..r.W</Item>
+      <Item>W. ...r..d. ..r.r..........d.rd...... .W</Item>
+      <Item>W..d.....r..... ........rr r..r....r...W</Item>
+      <Item>W...r..r.r..............r .r..r........W</Item>
+      <Item>W.r.....r........rrr.......r.. .d....r.W</Item>
+      <Item>W.d.. ..r.  .....r.rd..d....r...r..d. .W</Item>
+      <Item>W. r..............r r..r........d.....rW</Item>
+      <Item>W........wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwW</Item>
+      <Item>W r.........r...d....r.....r...r.......W</Item>
+      <Item>W r......... r..r........r......r.rr..PW</Item>
+      <Item>W. ..r........r.....r.  ....d...r.rr...W</Item>
+      <Item>W....rd..r........r......r.rd......r...W</Item>
+      <Item>W... ..r. ..r.rr.........r.rd...... ..rW</Item>
+      <Item>W.d.... ..... ......... .r..r....r...r.W</Item>
+      <Item>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</Item>
+    </Raw>
+
+  </Asset>
+</XnaContent>

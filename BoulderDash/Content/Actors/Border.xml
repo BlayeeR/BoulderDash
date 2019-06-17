@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GameData.Actor">
+    <Position>50 50</Position>
+    <Name>Border</Name>
+    <ID>2</ID>
+    <Components>
+      <Item Type="RenderableComponent">
+        <ResourcePath>Textures/Sprites</ResourcePath>
+        <AtlasRectangle>16 96 16 16</AtlasRectangle>
+      </Item>
+      <Item Type="BorderComponent"/>
+    </Components>
+  </Asset>
+</XnaContent>
