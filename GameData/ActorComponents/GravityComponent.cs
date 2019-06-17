@@ -56,8 +56,8 @@ namespace GameData.ActorComponents
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             checkedInCurrentTick = false;
-            base.Update(gameTime);  
         }
 
         public void TryMove()

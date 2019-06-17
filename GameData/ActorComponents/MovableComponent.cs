@@ -16,24 +16,16 @@ namespace GameData.ActorComponents
 {
     public class MovableComponent : ActorComponent
     {
-        private bool tryKill = false;
         [ContentSerializerIgnore]
         public bool LockMovement = false;
-        private Vector2 killPosition = Vector2.Zero;
         private double timer = 0;
         protected int checkSurroundings = 0;
  
         public override void Update(GameTime gameTime)
         {
-            timer = (timer >= 300) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            timer = (timer >= 250) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer == 0)
             { 
-                if (tryKill)
-                {
-                    if (Owner.Owner.Actors.Where(x => x.IsPlayer).FirstOrDefault().Position == killPosition)
-                        Owner.Owner.Actors.Where(x => x.IsPlayer).FirstOrDefault().GetComponent<PlayerComponent>().Kill();
-                    tryKill = false;
-                }
                 if(checkSurroundings != 0)
                 {
                     checkSurroundings--;
@@ -129,20 +121,13 @@ namespace GameData.ActorComponents
                     return true;
                 }
             }
-            else //object wants to move
-            {
+            else if (Owner.HasComponent<GravityComponent>())
+            { //object wants to move
                 //no other entity in the way
                 if(target == null)
                 {
-                    //move
-
-                    if (target != null)
-                    {
-                        killPosition = target.Position;
-                        tryKill = true;
-                    }
-                    base.OnActionPerformed();
                     Owner.Position += new Vector2(Owner.Size.X, 0);
+                    base.OnActionPerformed();
                     return true;
                 }
             }
@@ -223,17 +208,11 @@ namespace GameData.ActorComponents
                     return true;
                 }
             }
-            else //object wants to move
-            {
+            else if (Owner.HasComponent<GravityComponent>())
+            { //object wants to move
                 //no other entity in the way
                 if (target == null)
                 {
-                    //move
-                    if (target != null)
-                    {
-                        killPosition = target.Position;
-                        tryKill = true;
-                    }
                     Owner.Position += new Vector2(-Owner.Size.X, 0);
                     base.OnActionPerformed();
                     return true;
@@ -376,8 +355,7 @@ namespace GameData.ActorComponents
                 }
                 else if(Owner.GetComponent<GravityComponent>().IsFalling && target.IsPlayer)
                 {
-                    killPosition = target.Position;
-                    tryKill = true;
+                    target.GetComponent<PlayerComponent>().Kill();
                     Owner.Position += new Vector2(0, Owner.Size.Y);
                     base.OnActionPerformed();
                     return true;
