@@ -10,6 +10,7 @@
         <AtlasRectangle>0 160 16 16</AtlasRectangle>
       </Item>
       <Item Type="CollectableComponent"/>
+      <Item Type="GravityComponent"/>
     </Components>
   </Asset>
 </XnaContent>

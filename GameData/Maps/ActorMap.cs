@@ -23,7 +23,7 @@ namespace GameData.Maps
     public class ActorMap : IComponent
     {
         private double calculateScoreTimer = 0;
-        private bool ended = false;
+        private bool ended = false, started = false;
         public int ID;
         [ContentSerializer]
 #pragma warning disable IDE0044 // Add readonly modifier
@@ -47,7 +47,7 @@ namespace GameData.Maps
         public Vector2 Size;
         [ContentSerializerIgnore]
         public Actor Player { get; private set; }
-        public event EventHandler PlayerKilled, MapCompleted;
+        public event EventHandler PlayerKilled, MapCompleted, MapLoaded, MapStarted;
 #pragma warning restore IDE0044 // Add readonly modifier
         public void Update(GameTime gameTime)
         {
@@ -76,6 +76,11 @@ namespace GameData.Maps
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (!started)
+            {
+                started = true;
+                MapStarted?.Invoke(this, null);
+            }
             Actors.ForEach(x => x.Draw(spriteBatch));
         }
 
@@ -131,9 +136,9 @@ namespace GameData.Maps
                     }
                     if (actor != null)
                     {
+                        actor.Owner = this;
                         actor.LoadContent(content);
                         actor.GetComponent<RenderableComponent>().DrawColor = ForegroundColor;
-                        actor.Owner = this;
                         actor.Position = new Vector2(j * TileDimensions.X, i * TileDimensions.Y);
                         Actors.Add(actor);
                     }
@@ -155,6 +160,7 @@ namespace GameData.Maps
             InputManager.Instance.OnFlickRight += Instance_OnFlickRight;
             MapStartSound = content.Load<Song>("Sounds/MapStart");
             MapEndSound = content.Load<Song>("Sounds/MapComplete");
+            MapLoaded?.Invoke(this, null);
             MediaPlayer.Play(MapStartSound);
         }
 

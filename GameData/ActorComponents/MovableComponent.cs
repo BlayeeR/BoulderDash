@@ -21,15 +21,24 @@ namespace GameData.ActorComponents
         public bool LockMovement = false;
         private Vector2 killPosition = Vector2.Zero;
         private double timer = 0;
-
+        protected int checkSurroundings = 0;
+ 
         public override void Update(GameTime gameTime)
         {
-            timer = (timer >= 600) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (timer == 0 && tryKill)
-            {
-                if (Owner.Owner.Actors.Where(x => x.IsPlayer).FirstOrDefault().Position == killPosition)
-                    Owner.Owner.Actors.Where(x => x.IsPlayer).FirstOrDefault().GetComponent<PlayerComponent>().Kill();
-                tryKill = false;
+            timer = (timer >= 300) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (timer == 0)
+            { 
+                if (tryKill)
+                {
+                    if (Owner.Owner.Actors.Where(x => x.IsPlayer).FirstOrDefault().Position == killPosition)
+                        Owner.Owner.Actors.Where(x => x.IsPlayer).FirstOrDefault().GetComponent<PlayerComponent>().Kill();
+                    tryKill = false;
+                }
+                if(checkSurroundings != 0)
+                {
+                    checkSurroundings--;
+                    Owner.Neighbours.Where(x => x.HasComponent<GravityComponent>()).ToList().ForEach(x => x.GetComponent<GravityComponent>().TryMove());
+                }
             }
             base.Update(gameTime);
         }
@@ -37,13 +46,19 @@ namespace GameData.ActorComponents
         public override void Initialize(ContentManager content, Actor owner)
         {
             base.Initialize(content, owner);
+            base.ActionPerformed += MovableComponent_ActionPerformed;
+        }
+
+        private void MovableComponent_ActionPerformed(object sender, EventArgs e)
+        {
+            checkSurroundings++;
         }
 
         public bool MoveRight()
         {
             if (LockMovement)
                 return false;
-            Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X + Owner.Size.X && x.Position.Y == Owner.Position.Y).FirstOrDefault();
+            Actor target = Owner.CloseNeighbours.Where(x => x.Position.X == Owner.Position.X + Owner.Size.X && x.Position.Y == Owner.Position.Y).FirstOrDefault();
             //player wants to move
             if (Owner.IsPlayer)
             {
@@ -54,34 +69,34 @@ namespace GameData.ActorComponents
                         return false;
                     //movable object in the way
                     try
-                    { 
-                        //try to move
-                        if (target.GetComponent<MovableComponent>().MoveRight())
-                        {
-                            //object moved, move player
-                            Owner.Position += new Vector2(Owner.Size.X, 0);
-                            base.OnActionPerformed();
-                            return true;
-                        }
+                    {
+                        //collect object
+                        target.GetComponent<CollectableComponent>().Collect();
+                        //move
+                        Owner.Position += new Vector2(Owner.Size.X, 0);
+                        base.OnActionPerformed();
+                        return true;
                     }
                     catch
                     {
                         //destroyable object in the way
                         try
                         {
-                            //destroy object
-                            target.GetComponent<DestroyableComponent>().Destroy();
-                            //move
-                            Owner.Position += new Vector2(Owner.Size.X, 0);
-                            base.OnActionPerformed();
-                            return true;
+                            //try to move
+                            if (target.GetComponent<MovableComponent>().MoveRight())
+                            {
+                                //object moved, move player
+                                Owner.Position += new Vector2(Owner.Size.X, 0);
+                                base.OnActionPerformed();
+                                return true;
+                            }
                         }
                         catch
                         {
                             try
                             {
-                                //collect object
-                                target.GetComponent<CollectableComponent>().Collect();
+                                //destroy object
+                                target.GetComponent<DestroyableComponent>().Destroy();
                                 //move
                                 Owner.Position += new Vector2(Owner.Size.X, 0);
                                 base.OnActionPerformed();
@@ -117,7 +132,7 @@ namespace GameData.ActorComponents
             else //object wants to move
             {
                 //no other entity in the way
-                if(target == null || target.IsPlayer)
+                if(target == null)
                 {
                     //move
 
@@ -138,7 +153,7 @@ namespace GameData.ActorComponents
         {
             if (LockMovement)
                 return false;
-            Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X - Owner.Size.X && x.Position.Y == Owner.Position.Y).FirstOrDefault();
+            Actor target = Owner.CloseNeighbours.Where(x => x.Position.X == Owner.Position.X - Owner.Size.X && x.Position.Y == Owner.Position.Y).FirstOrDefault();
             //player wants to move
             if (Owner.IsPlayer)
             {
@@ -149,34 +164,34 @@ namespace GameData.ActorComponents
                         return false;
                     //movable object in the way
                     try
-                    { 
-                        //try to move
-                        if (target.GetComponent<MovableComponent>().MoveLeft())
-                        {
-                            //object moved, move player
-                            Owner.Position += new Vector2(-Owner.Size.X, 0);
-                            base.OnActionPerformed();
-                            return true;
-                        }
+                    {
+                        //collect object
+                        target.GetComponent<CollectableComponent>().Collect();
+                        //move
+                        Owner.Position += new Vector2(-Owner.Size.X, 0);
+                        base.OnActionPerformed();
+                        return true;
                     }
                     catch
                     {
                         //destroyable object in the way
                         try
                         {
-                            //destroy object
-                            target.GetComponent<DestroyableComponent>().Destroy();
-                            //move
-                            Owner.Position += new Vector2(-Owner.Size.X, 0);
-                            base.OnActionPerformed();
-                            return true;
+                            //try to move
+                            if (target.GetComponent<MovableComponent>().MoveLeft())
+                            {
+                                //object moved, move player
+                                Owner.Position += new Vector2(-Owner.Size.X, 0);
+                                base.OnActionPerformed();
+                                return true;
+                            }
                         }
                         catch
                         {
                             try
                             {
-                                //collect object
-                                target.GetComponent<CollectableComponent>().Collect();
+                                //destroy object
+                                target.GetComponent<DestroyableComponent>().Destroy();
                                 //move
                                 Owner.Position += new Vector2(-Owner.Size.X, 0);
                                 base.OnActionPerformed();
@@ -211,7 +226,7 @@ namespace GameData.ActorComponents
             else //object wants to move
             {
                 //no other entity in the way
-                if (target == null || target.IsPlayer)
+                if (target == null)
                 {
                     //move
                     if (target != null)
@@ -231,7 +246,7 @@ namespace GameData.ActorComponents
         {
             if (LockMovement)
                 return false;
-            Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X && x.Position.Y == Owner.Position.Y-Owner.Size.Y).FirstOrDefault();
+            Actor target = Owner.CloseNeighbours.Where(x => x.Position.X == Owner.Position.X && x.Position.Y == Owner.Position.Y-Owner.Size.Y).FirstOrDefault();
             //player wants to move
             if (Owner.IsPlayer)
             {
@@ -293,7 +308,7 @@ namespace GameData.ActorComponents
         {
             if (LockMovement)
                 return false;
-            Actor target = Owner.Neighbours.Where(x => x.Position.X == Owner.Position.X && x.Position.Y == Owner.Position.Y + Owner.Size.Y).FirstOrDefault();
+            Actor target = Owner.CloseNeighbours.Where(x => x.Position.X == Owner.Position.X && x.Position.Y == Owner.Position.Y + Owner.Size.Y).FirstOrDefault();
             //player wants to move
             if (Owner.IsPlayer)
             {
@@ -359,7 +374,7 @@ namespace GameData.ActorComponents
                     base.OnActionPerformed();
                     return true;
                 }
-                else if(target.IsPlayer)
+                else if(Owner.GetComponent<GravityComponent>().IsFalling && target.IsPlayer)
                 {
                     killPosition = target.Position;
                     tryKill = true;
@@ -367,7 +382,6 @@ namespace GameData.ActorComponents
                     base.OnActionPerformed();
                     return true;
                 }
-                
             }
             return false;
         }

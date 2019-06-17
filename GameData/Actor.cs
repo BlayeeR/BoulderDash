@@ -43,7 +43,7 @@ namespace GameData
         }
 
         [ContentSerializerIgnore]
-        public List<Actor> Neighbours
+        public List<Actor> CloseNeighbours
         {
             get
             {
@@ -51,6 +51,20 @@ namespace GameData
                                                   x.Position.X <= Position.X + Size.X &&
                                                   x.Position.Y >= Position.Y - Size.Y &&
                                                   x.Position.Y <= Position.Y + Size.Y).ToList();
+               //n.Remove(this);
+                return n;
+            }
+        }
+
+        [ContentSerializerIgnore]
+        public List<Actor> Neighbours
+        {
+            get
+            {
+                List<Actor> n = Owner.Actors.Where(x => x.Position.X >= Position.X - Size.X*2 &&
+                                                  x.Position.X <= Position.X + Size.X*2 &&
+                                                  x.Position.Y >= Position.Y - Size.Y*2 &&
+                                                  x.Position.Y <= Position.Y + Size.Y*2).ToList();
                 //n.Remove(this);
                 return n;
             }

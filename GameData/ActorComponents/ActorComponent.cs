@@ -19,10 +19,8 @@ namespace GameData.ActorComponents
 {
     public abstract class ActorComponent : IUpdate
     {
-        private double timer = 0;
-        private bool fireEvent = false;
         [ContentSerializerIgnore]
-        public Actor Owner { get; private set; }
+        public virtual Actor Owner { get; protected set; }
         public virtual void Update(GameTime gameTime)
         {
         }
@@ -34,7 +32,6 @@ namespace GameData.ActorComponents
 
         protected void OnActionPerformed()
         {
-            fireEvent = true;
             this.ActionPerformed?.Invoke(Owner, null);
         }
     }
