@@ -100,7 +100,7 @@ namespace BoulderDash.Scenes
             Camera = new Camera2D(game, new Vector2(game.GetScaledResolution().X, game.GetScaledResolution().Y * (1 - guiSize)));
             Camera.Initialize();
             Camera.CalculateDeadZone(map.Size, map.TileDimensions);
-            Camera.Focus = map.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
+            Camera.Focus = map.Player;
             guiText = new Text(new Vector2(game.GetScaledResolution().X*0.06f, game.GetScaledResolution().Y*guiSize /4), $"[{map.DiamondsRequired}]/{map.DiamondValue} [{map.DiamondsCollected}] {map.Time} {map.Score}", Color.White);
             guiText.LoadContent(content);
         }
@@ -112,6 +112,7 @@ namespace BoulderDash.Scenes
             Camera.Focus = new Actor() { Position = Vector2.Zero };
             map.UnloadContent();
             map.MapCompleted -= Map_MapCompleted;
+            map.PlayerKilled -= Map_PlayerKilled;
             try
             {
                 using (ContentManager c = new ContentManager(content.ServiceProvider, content.RootDirectory))
@@ -124,8 +125,9 @@ namespace BoulderDash.Scenes
             }
             map.LoadContent(content);
             map.Score = oldScore; 
-            Camera.Focus = map.Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
+            Camera.Focus = map.Player;
             map.MapCompleted += Map_MapCompleted;
+            map.PlayerKilled += Map_PlayerKilled;
         }
 
         private void Map_PlayerKilled(object sender, EventArgs e)

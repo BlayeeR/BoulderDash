@@ -45,6 +45,8 @@ namespace GameData.Maps
         public List<Actor> Actors = new List<Actor>();
         [ContentSerializerIgnore]
         public Vector2 Size;
+        [ContentSerializerIgnore]
+        public Actor Player { get; private set; }
         public event EventHandler PlayerKilled, MapCompleted;
 #pragma warning restore IDE0044 // Add readonly modifier
         public void Update(GameTime gameTime)
@@ -56,7 +58,7 @@ namespace GameData.Maps
             {
                 Time--;
                 if (Time == 0)
-                    Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault().Components.OfType<PlayerComponent>().FirstOrDefault().Kill();
+                    Player.GetComponent<PlayerComponent>().Kill();
             }
             if(ended &&calculateScoreTimer == 0)
             {
@@ -97,6 +99,7 @@ namespace GameData.Maps
                             case 'X':
                                 {
                                     actor = c.Load<Actor>("Actors/Player");
+                                    Player = actor;
                                     break;
                                 }
                             case '.':
@@ -129,17 +132,17 @@ namespace GameData.Maps
                     if (actor != null)
                     {
                         actor.LoadContent(content);
-                        actor.Components.OfType<RenderableComponent>().FirstOrDefault().DrawColor = ForegroundColor;
+                        actor.GetComponent<RenderableComponent>().DrawColor = ForegroundColor;
                         actor.Owner = this;
                         actor.Position = new Vector2(j * TileDimensions.X, i * TileDimensions.Y);
                         Actors.Add(actor);
                     }
                 }
             }
-            Actors.Where(x => x.Components.OfType<ExitComponent>().Any()).ToList().ForEach(x => x.Components.OfType<ExitComponent>().FirstOrDefault().ExitEntered += ActorMap_ExitEntered);
-            Actors.Where(x => x.Components.OfType<DestroyableComponent>().Any()).ToList().ForEach(x => x.Components.OfType<DestroyableComponent>().FirstOrDefault().Destroyed += ActorMap_ActorDestroyed);
-            Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).ToList().ForEach(x => x.Components.OfType<PlayerComponent>().FirstOrDefault().PlayerKilled += ActorMap_PlayerKilled);
-            Actors.Where(x => x.Components.OfType<CollectableComponent>().Any()).ToList().ForEach(x => x.Components.OfType<CollectableComponent>().FirstOrDefault().Collected += ActorMap_Collected);
+            Actors.Where(x => x.HasComponent<ExitComponent>()).ToList().ForEach(x => x.GetComponent<ExitComponent>().ExitEntered += ActorMap_ExitEntered);
+            Actors.Where(x => x.HasComponent<DestroyableComponent>()).ToList().ForEach(x => x.GetComponent<DestroyableComponent>().Destroyed += ActorMap_ActorDestroyed);
+            Actors.Where(x => x.HasComponent<PlayerComponent>()).ToList().ForEach(x => x.GetComponent<PlayerComponent>().PlayerKilled += ActorMap_PlayerKilled);
+            Actors.Where(x => x.HasComponent<CollectableComponent>()).ToList().ForEach(x => x.GetComponent<CollectableComponent>().Collected += ActorMap_Collected);
 
             //force 1lvl
             Time = Int32.Parse(TimeValue.Split(" ").FirstOrDefault());
@@ -170,57 +173,49 @@ namespace GameData.Maps
         private void ActorMap_Collected(object sender, EventArgs e)
         {
             Actors.Remove(sender as Actor);
-            (sender as Actor).Components.OfType<CollectableComponent>().FirstOrDefault().Collected -= ActorMap_Collected;
+            (sender as Actor).GetComponent<CollectableComponent>().Collected -= ActorMap_Collected;
             if (DiamondsRequired > DiamondsCollected)
                 Score += DiamondValue;
             else
                 Score += BonusDiamondValue;
             DiamondsCollected++;
-            if(DiamondsCollected== DiamondsRequired && !Actors.Where(x => x.Components.OfType<ExitComponent>().Any()).FirstOrDefault().Components.OfType<ExitComponent>().FirstOrDefault().IsOpen)
+            if(DiamondsCollected== DiamondsRequired && !Actors.Where(x => x.HasComponent<ExitComponent>()).FirstOrDefault().GetComponent<ExitComponent>().IsOpen)
             {
-                Actor exit = Actors.Where(x => x.Components.OfType<ExitComponent>().Any()).FirstOrDefault();
-                exit.Components.Remove(exit.Components.OfType<BorderComponent>().FirstOrDefault());
-                exit.Components.OfType<ExitComponent>().FirstOrDefault().Open();
+                Actor exit = Actors.Where(x => x.HasComponent<ExitComponent>()).FirstOrDefault();
+                exit.RemoveComponent(exit.GetComponent<BorderComponent>());
+                exit.GetComponent<ExitComponent>().Open();
             }
         }
 
         private void ActorMap_ActorDestroyed(object sender, EventArgs e)
         {
             Actors.Remove(sender as Actor);
-            (sender as Actor).Components.OfType<DestroyableComponent>().FirstOrDefault().Destroyed -= ActorMap_ActorDestroyed;
+            (sender as Actor).GetComponent<DestroyableComponent>().Destroyed -= ActorMap_ActorDestroyed;
         }
 
         private void Instance_OnFlickRight(object sender, EventArgs e)
         {
-            Actor player = Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
-            if (player != null)
-                player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveRight();
+            Player.GetComponent<PlayerComponent>().MoveRight();
         }
 
         private void Instance_OnFlickLeft(object sender, EventArgs e)
         {
-            Actor player = Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
-            if (player != null)
-                player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveLeft();
+            Player.GetComponent<PlayerComponent>().MoveLeft();
         }
 
         private void Instance_OnFlickUp(object sender, EventArgs e)
         {
-            Actor player = Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
-            if (player != null)
-                player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveUp();
+            Player.GetComponent<PlayerComponent>().MoveUp();
         }
 
         private void Instance_OnFlickDown(object sender, EventArgs e)
         {
-            Actor player = Actors.Where(x => x.Components.OfType<PlayerComponent>().Any()).FirstOrDefault();
-            if (player != null)
-                player.Components.OfType<PlayerComponent>().FirstOrDefault().MoveDown();
+            Player.GetComponent<PlayerComponent>().MoveDown();
         }
 
         public void UnloadContent()
         {
-            Actors.Where(x => x.Components.OfType<DestroyableComponent>().Any()).ToList().ForEach(x => x.Components.OfType<DestroyableComponent>().FirstOrDefault().Destroyed -= ActorMap_ActorDestroyed);
+            Actors.Where(x => x.HasComponent<DestroyableComponent>()).ToList().ForEach(x => x.GetComponent<DestroyableComponent>().Destroyed -= ActorMap_ActorDestroyed);
             Actors.ForEach(x=>x.UnloadContent());
         }
 

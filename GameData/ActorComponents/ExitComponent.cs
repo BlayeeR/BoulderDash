@@ -25,14 +25,14 @@ namespace GameData.ActorComponents
         }
         public void Open()
         {
-            Owner.Components.OfType<RenderableComponent>().FirstOrDefault().AtlasRectangle = new Rectangle(32, 96, 16, 16);
+            Owner.GetComponent<RenderableComponent>().AtlasRectangle = new Rectangle(32, 96, 16, 16);
             IsOpen = true;
         }
 
         public void OnEntered(Actor player)
         {
-            Owner.Components.OfType<RenderableComponent>().FirstOrDefault().DrawMe = false;
-            player.Components.OfType<PlayerComponent>().FirstOrDefault().LockMovement = true;
+            Owner.GetComponent<RenderableComponent>().DrawMe = false;
+            player.GetComponent<PlayerComponent>().LockMovement = true;
             ExitEntered?.Invoke(Owner, null);
         }
     }

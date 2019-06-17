@@ -42,12 +42,12 @@ namespace GameData.ActorComponents
                     //check neighbour in bottom left
                     Actor temp = Owner.Neighbours.Where(y => y.Position.X == Owner.Position.X - Owner.Size.X && y.Position.Y == Owner.Position.Y + Owner.Size.Y).FirstOrDefault();
                     //if there is any try to move left
-                    if (!((temp == null || temp.Components.OfType<PlayerComponent>().Any()) && MoveLeft()))
+                    if (!((temp == null || temp.IsPlayer) && MoveLeft()))
                     {//cant move left, entity in the way
                         //check right bottom
                         temp = Owner.Neighbours.Where(y => y.Position.X == Owner.Position.X + Owner.Size.X && y.Position.Y == Owner.Position.Y + Owner.Size.Y).FirstOrDefault();
                         //empty
-                        if (temp == null || temp.Components.OfType<PlayerComponent>().Any())
+                        if (temp == null || temp.IsPlayer)
                             //try move
                             MoveRight();
                     }

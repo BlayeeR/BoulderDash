@@ -50,8 +50,8 @@ namespace GameData.ActorComponents
 
         public void Kill()
         {
-            Owner.Components.OfType<RenderableComponent>().FirstOrDefault().DrawMe = false;
-            Owner.Components.OfType<MovableComponent>().FirstOrDefault().LockMovement = true;
+            Owner.GetComponent<RenderableComponent>().DrawMe = false;
+            Owner.GetComponent<MovableComponent>().LockMovement = true;
             killed = true;
         }
     }

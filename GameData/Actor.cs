@@ -16,7 +16,8 @@ namespace GameData
         public string Name;
         public uint ID;
         public Vector2 Position { get; set; }
-        public List<ActorComponent> Components = new List<ActorComponent>();
+        [ContentSerializer]
+        private List<ActorComponent> Components = new List<ActorComponent>();
         [ContentSerializerIgnore]
         public Vector2 Size { get { return new Vector2(16); } }
         [ContentSerializerIgnore]
@@ -53,6 +54,28 @@ namespace GameData
                 //n.Remove(this);
                 return n;
             }
+        }
+
+        public bool HasComponent<T>()
+        {
+            return Components.OfType<T>().Any();
+        }
+
+        public T GetComponent<T>()
+        {
+            return Components.OfType<T>().First();
+        }
+
+        [ContentSerializerIgnore]
+        public bool IsPlayer { get { return HasComponent<PlayerComponent>(); } }
+
+        public void AddComponent(ActorComponent component)
+        {
+            Components.Add(component);
+        }
+        public void RemoveComponent(ActorComponent component)
+        {
+            Components.Remove(component);
         }
     }
 }
