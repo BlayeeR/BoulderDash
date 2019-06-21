@@ -16,13 +16,17 @@ namespace BoulderDash
 {
     public class Game1 : Game
     {
+
+        #region Fields
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         public static bool Stop = false;
         private RenderTarget2D renderTarget;
-        private float renderScale = 1.375f;
+        private readonly float renderScale = 1.375f;
         private const int renderScreenHeight = 480;
+        #endregion
 
+        #region Properties
         public float AspectRatio
         {
             get
@@ -30,6 +34,7 @@ namespace BoulderDash
                 return (float)GraphicsDevice.PresentationParameters.BackBufferWidth / GraphicsDevice.PresentationParameters.BackBufferHeight;
             }
         }
+        #endregion
 
         public Vector2 GetScaledResolution()
         {

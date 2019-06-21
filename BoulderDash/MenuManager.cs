@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Widget;
-using BoulderDash.Scenes;
 using GameData;
 using GameShared.Interfaces;
 using Microsoft.Xna.Framework;
@@ -19,9 +11,11 @@ namespace BoulderDash
 {
     public class MenuManager : IComponent
     {
+        #region Fields
         private static MenuManager instance;
         private ContentManager content;
         private Stack<Menu> menus = new Stack<Menu>();
+        #endregion
 
         public static MenuManager Instance
         {

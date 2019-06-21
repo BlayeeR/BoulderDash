@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
@@ -17,11 +8,17 @@ namespace GameData.ActorComponents
 {
     public class GravityComponent : MovableComponent
     {
+        #region Fields
         private Song RockFalling;
+        private double timer = 0;
         private bool checkedInCurrentTick = false;
         public event EventHandler StartedFalling, StoppedFalling;
+        #endregion
+
+        #region Properties
         [ContentSerializerIgnore]
         public bool IsFalling { get; private set; }
+        #endregion
 
         public override Actor Owner { get => base.Owner; protected set {
                 base.Owner = value;
@@ -35,6 +32,21 @@ namespace GameData.ActorComponents
             StartedFalling += GravityComponent_StartedFalling;
             StoppedFalling += GravityComponent_StoppedFalling;
             base.Initialize(content, owner);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            timer = (timer >= 250) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (timer == 0)
+            {
+                if (checkSurroundings != 0)
+                {
+                    checkSurroundings--;
+                    Owner.Neighbours.Where(x => x.HasComponent<GravityComponent>()).ToList().ForEach(x => x.GetComponent<GravityComponent>().TryMove());
+                }
+            }
+            checkedInCurrentTick = false;
+            base.Update(gameTime);
         }
 
         private void GravityComponent_StoppedFalling(object sender, EventArgs e)
@@ -52,12 +64,6 @@ namespace GameData.ActorComponents
         private void Owner_MapStarted(object sender, EventArgs e)
         {
             base.checkSurroundings++;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            checkedInCurrentTick = false;
         }
 
         public void TryMove()

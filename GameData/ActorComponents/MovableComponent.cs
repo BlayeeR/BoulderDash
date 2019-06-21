@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
@@ -16,22 +7,14 @@ namespace GameData.ActorComponents
 {
     public class MovableComponent : ActorComponent
     {
+        #region Fields
         [ContentSerializerIgnore]
         public bool LockMovement = false;
-        private double timer = 0;
         protected int checkSurroundings = 0;
- 
+        #endregion
+
         public override void Update(GameTime gameTime)
         {
-            timer = (timer >= 250) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (timer == 0)
-            { 
-                if(checkSurroundings != 0)
-                {
-                    checkSurroundings--;
-                    Owner.Neighbours.Where(x => x.HasComponent<GravityComponent>()).ToList().ForEach(x => x.GetComponent<GravityComponent>().TryMove());
-                }
-            }
             base.Update(gameTime);
         }
 
@@ -39,11 +22,6 @@ namespace GameData.ActorComponents
         {
             base.Initialize(content, owner);
             base.ActionPerformed += MovableComponent_ActionPerformed;
-        }
-
-        private void MovableComponent_ActionPerformed(object sender, EventArgs e)
-        {
-            checkSurroundings++;
         }
 
         public bool MoveRight()
@@ -337,10 +315,13 @@ namespace GameData.ActorComponents
                 }
                 catch
                 {
-                    //empty space, move
-                    Owner.Position += new Vector2(0, Owner.Size.Y);
-                    base.OnActionPerformed();
-                    return true;
+                    if (target == null)
+                    {
+                        //empty space, move
+                        Owner.Position += new Vector2(0, Owner.Size.Y);
+                        base.OnActionPerformed();
+                        return true;
+                    }
                 }
             }
             else if (Owner.HasComponent<GravityComponent>())
@@ -362,6 +343,11 @@ namespace GameData.ActorComponents
                 }
             }
             return false;
+        }
+
+        private void MovableComponent_ActionPerformed(object sender, EventArgs e)
+        {
+            checkSurroundings++;
         }
     }
 }

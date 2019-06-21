@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using GameData.ActorComponents;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -18,14 +6,19 @@ namespace GameData.ActorComponents
 {
     public class RenderableComponent : ActorComponent
     {
-        Rectangle actorRectangle;
-        Texture2D actorTexture;
-        public string ResourcePath;
+        #region Fields
+        private Rectangle actorRectangle;
+        private Texture2D actorTexture;
         [ContentSerializerIgnore]
         public Color DrawColor;
-        public Rectangle AtlasRectangle;
         [ContentSerializerIgnore]
         public bool DrawMe = true;
+        #endregion
+
+        #region ContentSerializerFields
+        public string ResourcePath;
+        public Rectangle AtlasRectangle;
+        #endregion
 
         public override void Initialize(ContentManager content, Actor actor)
         {

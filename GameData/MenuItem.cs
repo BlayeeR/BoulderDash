@@ -1,14 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using GameData.Sprites;
 using GameShared;
 using GameShared.Interfaces;
@@ -21,11 +11,21 @@ namespace GameData
 {
     public class MenuItem : IComponent
     {
-        private Text TextSprite = new Text();
+        #region ContentSerializerProperties
         public string Text { get => TextSprite.String; set => TextSprite.String = value; }
+        #endregion
+
+        #region ContentSerializerFields
         public string LinkType;
         public string LinkID;
+        #endregion
+
+        #region Fields
         public event EventHandler OnTap;
+        private Text TextSprite = new Text();
+        #endregion
+
+        #region Properties
         [ContentSerializerIgnore]
         public string FontResource { get => TextSprite.ResourcePath; set => TextSprite.ResourcePath = value; }
         [ContentSerializerIgnore]
@@ -34,27 +34,7 @@ namespace GameData
         public float Scale { get => TextSprite.Size.X; set => TextSprite.Size = new Vector2(value); }
         [ContentSerializerIgnore]
         public Vector2 Position { get => TextSprite.Position; set => TextSprite.Position = value; }
-
-        private void Instance_OnTap(object sender, EventArgs e)
-        {
-            if (TextSprite.Contains(((GestureSample)sender).Position.ToPoint()))
-                OnTap?.Invoke(this, null);
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            TextSprite.Draw(spriteBatch);
-        }
-
-        public Vector2 CalculateSize()
-        {
-            return TextSprite.Size;
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            TextSprite.Update(gameTime);
-        }
+        #endregion
 
         public void LoadContent(ContentManager content)
         {
@@ -65,6 +45,27 @@ namespace GameData
         public void UnloadContent()
         {
             TextSprite.UnloadContent();
+        }
+
+        private void Instance_OnTap(object sender, EventArgs e)
+        {
+            if (TextSprite.Contains(((GestureSample)sender).Position.ToPoint()))
+                OnTap?.Invoke(this, null);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            TextSprite.Update(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            TextSprite.Draw(spriteBatch);
+        }
+
+        public Vector2 CalculateSize()
+        {
+            return TextSprite.Size;
         }
     }
 }

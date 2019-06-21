@@ -139,25 +139,25 @@
     <AndroidAsset Include="Assets\Content\Sounds\MapStart.m4a" />
     <AndroidAsset Include="Assets\Content\Sounds\Move.m4a" />
     <AndroidAsset Include="Assets\Content\Sounds\RockHittingGround.m4a" />
-    <Content Include="Content\Actors\Border.xml">
+    <None Include="Content\Actors\Border.xml">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Content\Actors\Boulder.xml">
+    </None>
+    <None Include="Content\Actors\Boulder.xml">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Content\Actors\Diamond.xml" />
-    <Content Include="Content\Actors\Dirt.xml" />
-    <Content Include="Content\Actors\Exit.xml" />
-    <Content Include="Content\Actors\Wall.xml" />
-    <Content Include="Content\Maps\2.xml">
+    </None>
+    <None Include="Content\Actors\Diamond.xml" />
+    <None Include="Content\Actors\Dirt.xml" />
+    <None Include="Content\Actors\Exit.xml" />
+    <None Include="Content\Actors\Wall.xml" />
+    <None Include="Content\Maps\2.xml">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Content\Maps\1.xml">
+    </None>
+    <None Include="Content\Maps\1.xml">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Content\Maps\3.xml">
+    </None>
+    <None Include="Content\Maps\3.xml">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

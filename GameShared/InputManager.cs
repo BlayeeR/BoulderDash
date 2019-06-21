@@ -1,13 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -17,12 +8,13 @@ namespace GameShared
 {
     public class InputManager : IGameComponent
     {
+        #region Fields
         TouchCollection touchCollection;
         GestureSample gesture;
         private static InputManager instance;
         public event EventHandler OnFlickLeft, OnFlickRight, OnFlickUp, OnFlickDown, OnBackButtonClicked, OnTap;
-
         public Vector2 ScaledResolution = Vector2.Zero;
+        #endregion
 
         public static InputManager Instance
         {

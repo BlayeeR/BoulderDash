@@ -21,7 +21,7 @@ namespace BoulderDash.Scenes
     {
         public Text diedText, scoreText, mainMenuText;
         private Game1 game;
-        private int score;
+        private readonly int score;
         public DeathScene(Game1 game, int score)
         {
             this.game = game;

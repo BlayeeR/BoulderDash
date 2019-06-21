@@ -1,16 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using GameData.ActorComponents;
-using GameData.Sprites;
 using GameShared;
 using GameShared.Interfaces;
 using Microsoft.Xna.Framework;
@@ -22,72 +13,47 @@ namespace GameData.Maps
 {
     public class ActorMap : IComponent
     {
-        private double calculateScoreTimer = 0;
+        #region Fields
+        private double calculateScoreTimer = 0, timer = 0;
         private bool ended = false, started = false;
-        public int ID;
-        [ContentSerializer]
-#pragma warning disable IDE0044 // Add readonly modifier
-        private string Description, DiamondsRequiredValue, TimeValue;
-        [ContentSerializer]
-        private int SlowGrowth;
-        public int DiamondValue, BonusDiamondValue;
         [ContentSerializerIgnore]
-        public int DiamondsRequired, Time, Score=0, DiamondsCollected=0;
-        private double timer = 0;
-        [ContentSerializer]
-        private Color BackgroundColor1, BackgroundColor2, ForegroundColor;
-        public Vector2 TileDimensions;
+        public int DiamondsRequired, Time, Score = 0, DiamondsCollected = 0;
         [ContentSerializerIgnore]
         public Song MapStartSound, MapEndSound;
-        [ContentSerializer(ElementName = "Raw")]
-        private List<string> raw;
         [ContentSerializerIgnore]
         public List<Actor> Actors = new List<Actor>();
         [ContentSerializerIgnore]
         public Vector2 Size;
+        public event EventHandler PlayerKilled, MapCompleted, MapLoaded, MapStarted;
+        #endregion
+
+        #region ContentSerializerFields
+        public int ID;
+        #pragma warning disable CS0169
+        [ContentSerializer]
+        private readonly string Description;
+        [ContentSerializer]
+        private string DiamondsRequiredValue = String.Empty, TimeValue = String.Empty;
+        [ContentSerializer]
+        private readonly int SlowGrowth;
+        public int DiamondValue, BonusDiamondValue;
+        #pragma warning restore
+        [ContentSerializer]
+        private Color BackgroundColor1 = Color.White, BackgroundColor2 = Color.White, ForegroundColor = Color.White;
+        public Vector2 TileDimensions;
+        [ContentSerializer(ElementName = "Raw")]
+        private List<string> raw = new List<string>();
+        #endregion
+
+        #region Properties
         [ContentSerializerIgnore]
         public Actor Player { get; private set; }
-        public event EventHandler PlayerKilled, MapCompleted, MapLoaded, MapStarted;
-#pragma warning restore IDE0044 // Add readonly modifier
-        public void Update(GameTime gameTime)
-        {
-            Actors.ForEach(x=>x.Update(gameTime));
-            timer = (timer >= 1000) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
-            calculateScoreTimer = (calculateScoreTimer >= 10) ? 0 : calculateScoreTimer + gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (timer == 0 && !ended)
-            {
-                Time--;
-                if (Time == 0)
-                    Player.GetComponent<PlayerComponent>().Kill();
-            }
-            if(ended &&calculateScoreTimer == 0)
-            {
-                if (Time == 0)
-                {
-                    MapCompleted?.Invoke(this, null);
-                }
-                else
-                {
-                    Time--;
-                    Score++;
-                }
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (!started)
-            {
-                started = true;
-                MapStarted?.Invoke(this, null);
-            }
-            Actors.ForEach(x => x.Draw(spriteBatch));
-        }
+        #endregion
 
         public void LoadContent(ContentManager content)
         {
             //i = row y, j column x
-            for(int i = 0; i < raw.Count; i++)
+            for (int i = 0; i < raw.Count; i++)
             {
                 for (int j = 0; j < raw[i].Length; j++)
                 {
@@ -153,7 +119,7 @@ namespace GameData.Maps
             Time = Int32.Parse(TimeValue.Split(" ").FirstOrDefault());
             DiamondsRequired = Int32.Parse(DiamondsRequiredValue.Split(" ").FirstOrDefault());
 
-            Size = new Vector2(Actors.Last().Position.X-Actors[0].Position.X+TileDimensions.X,Actors.Last().Position.Y-Actors[0].Position.Y+TileDimensions.Y);
+            Size = new Vector2(Actors.Last().Position.X - Actors[0].Position.X + TileDimensions.X, Actors.Last().Position.Y - Actors[0].Position.Y + TileDimensions.Y);
             InputManager.Instance.OnFlickDown += Instance_OnFlickDown;
             InputManager.Instance.OnFlickUp += Instance_OnFlickUp;
             InputManager.Instance.OnFlickLeft += Instance_OnFlickLeft;
@@ -163,6 +129,49 @@ namespace GameData.Maps
             MapLoaded?.Invoke(this, null);
             MediaPlayer.Play(MapStartSound);
         }
+
+        public void UnloadContent()
+        {
+            Actors.Where(x => x.HasComponent<DestroyableComponent>()).ToList().ForEach(x => x.GetComponent<DestroyableComponent>().Destroyed -= ActorMap_ActorDestroyed);
+            Actors.ForEach(x => x.UnloadContent());
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            Actors.ForEach(x=>x.Update(gameTime));
+            timer = (timer >= 1000) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            calculateScoreTimer = (calculateScoreTimer >= 10) ? 0 : calculateScoreTimer + gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (timer == 0 && !ended)
+            {
+                Time--;
+                if (Time == 0)
+                    Player.GetComponent<PlayerComponent>().Kill();
+            }
+            if(ended &&calculateScoreTimer == 0)
+            {
+                if (Time == 0)
+                {
+                    MapCompleted?.Invoke(this, null);
+                }
+                else
+                {
+                    Time--;
+                    Score++;
+                }
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (!started)
+            {
+                started = true;
+                MapStarted?.Invoke(this, null);
+            }
+            Actors.ForEach(x => x.Draw(spriteBatch));
+        }
+
+        
 
         private void ActorMap_ExitEntered(object sender, EventArgs e)
         {
@@ -218,12 +227,5 @@ namespace GameData.Maps
         {
             Player.GetComponent<PlayerComponent>().MoveDown();
         }
-
-        public void UnloadContent()
-        {
-            Actors.Where(x => x.HasComponent<DestroyableComponent>()).ToList().ForEach(x => x.GetComponent<DestroyableComponent>().Destroyed -= ActorMap_ActorDestroyed);
-            Actors.ForEach(x=>x.UnloadContent());
-        }
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using GameShared.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
-using GameData;
 using System;
 
 namespace BoulderDash
@@ -21,6 +20,7 @@ namespace BoulderDash
 
     public class Camera2D : GameComponent, ICamera2D
     {
+        #region Fields
         private Vector2 position;
         protected float viewportHeight;
         protected float viewportWidth;
@@ -29,14 +29,9 @@ namespace BoulderDash
         private Vector2 focusSize;
         private Vector2 screenCenter;
         private float scale;
+        #endregion
 
-        public Camera2D(Game1 game, Vector2 dimensions)
-            : base(game)
-        {
-            viewportWidth = dimensions.X;
-            viewportHeight = dimensions.Y;
-        }
-
+        #region Properties
         public Vector2 Position
         {
             get { return position; }
@@ -82,6 +77,14 @@ namespace BoulderDash
             }
         }
         public float MoveSpeed { get; set; }
+        #endregion
+
+        public Camera2D(Game1 game, Vector2 dimensions)
+            : base(game)
+        {
+            viewportWidth = dimensions.X;
+            viewportHeight = dimensions.Y;
+        }
 
         private void UpdatePosition(GameTime gameTime = null)
         {

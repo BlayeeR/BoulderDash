@@ -1,44 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using GameShared;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input.Touch;
 
 namespace GameData.Sprites
 {
     public class Text : Sprite
     {
+        #region ContentSerializerFields
         public Color Color;
-        private string text;
-        private List<Image> letters = new List<Image>();
-        private Vector2 position;
-        private ContentManager content;
+        #endregion
 
-        public event EventHandler Clicked;
-
-        [ContentSerializerIgnore]
-        public override Vector2 Position { get => position; set {
-                position = value;
-                float baseX = letters[0].Position.X;
-                letters.ForEach(x => x.Position = new Vector2(x.Position.X - baseX + value.X, value.Y));
-            } }
-
-        [ContentSerializerIgnore]
-        public override Vector2 Size { get {
-                return new Vector2(letters[0].Size.X * letters.Count, letters[0].Size.Y);
-            } }
-        public string String { get => text; set
+        #region ContentSerializerProperties
+        public string String
+        {
+            get => text; set
             {
                 text = value;
                 float lastPos = position.X;
@@ -101,17 +79,34 @@ namespace GameData.Sprites
                 }
                 if (content != null)
                     letters.ForEach(x => x.LoadContent(content));
+            }
+        }
+        #endregion
+
+        #region Fields
+        private string text;
+        private List<Image> letters = new List<Image>();
+        private Vector2 position;
+        private ContentManager content;
+        public event EventHandler Clicked;
+        #endregion
+
+        #region Properties
+        [ContentSerializerIgnore]
+        public override Vector2 Position { get => position; set {
+                position = value;
+                float baseX = letters[0].Position.X;
+                letters.ForEach(x => x.Position = new Vector2(x.Position.X - baseX + value.X, value.Y));
             } }
+
+        [ContentSerializerIgnore]
+        public override Vector2 Size { get {
+                return new Vector2(letters[0].Size.X * letters.Count, letters[0].Size.Y);
+            } }
+        #endregion
 
         public Text()
         {
-        }
-
-        public Text(Vector2 position, string text, Color color)
-        {
-            this.position = position;
-            this.Color = color;
-            this.String = text;
         }
 
         public override void LoadContent(ContentManager content)
@@ -121,21 +116,9 @@ namespace GameData.Sprites
             InputManager.Instance.OnTap += Instance_OnTap;
         }
 
-        private void Instance_OnTap(object sender, EventArgs e)
+        public override void UnloadContent()
         {
-            if (sender is Vector2 && Contains(((Vector2)sender).ToPoint()))
-                Clicked?.Invoke(this, null);
-
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            letters.ForEach(x => x.Draw(spriteBatch));
-        }
-
-        public override bool Contains(Point point)
-        {
-            return (new Rectangle(Position.ToPoint(), Size.ToPoint())).Contains(point);
+            letters.ForEach(x => x.UnloadContent());
         }
 
         public override void Update(GameTime gameTime)
@@ -143,9 +126,28 @@ namespace GameData.Sprites
             letters.ForEach(x => x.Update(gameTime));
         }
 
-        public override void UnloadContent()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            letters.ForEach(x => x.UnloadContent());
+            letters.ForEach(x => x.Draw(spriteBatch));
+        }
+
+        public Text(Vector2 position, string text, Color color)
+        {
+            this.position = position;
+            this.Color = color;
+            this.String = text;
+        }
+
+        private void Instance_OnTap(object sender, EventArgs e)
+        {
+            if (sender is Vector2 && Contains(((Vector2)sender).ToPoint()))
+                Clicked?.Invoke(this, null);
+
+        }
+
+        public override bool Contains(Point point)
+        {
+            return (new Rectangle(Position.ToPoint(), Size.ToPoint())).Contains(point);
         }
     }
 }
