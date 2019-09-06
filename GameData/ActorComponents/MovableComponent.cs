@@ -10,7 +10,6 @@ namespace GameData.ActorComponents
         #region Fields
         [ContentSerializerIgnore]
         public bool LockMovement = false;
-        protected int checkSurroundings = 0;
         #endregion
 
         public override void Update(GameTime gameTime)
@@ -21,7 +20,6 @@ namespace GameData.ActorComponents
         public override void Initialize(ContentManager content, Actor owner)
         {
             base.Initialize(content, owner);
-            base.ActionPerformed += MovableComponent_ActionPerformed;
         }
 
         public bool MoveRight()
@@ -343,11 +341,6 @@ namespace GameData.ActorComponents
                 }
             }
             return false;
-        }
-
-        private void MovableComponent_ActionPerformed(object sender, EventArgs e)
-        {
-            checkSurroundings++;
         }
     }
 }

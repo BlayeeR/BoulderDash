@@ -11,6 +11,7 @@ namespace GameData.ActorComponents
         #region Fields
         private Song RockFalling;
         private double timer = 0;
+        private int checkSurroundings = 0;
         private bool checkedInCurrentTick = false;
         public event EventHandler StartedFalling, StoppedFalling;
         #endregion
@@ -19,6 +20,11 @@ namespace GameData.ActorComponents
         [ContentSerializerIgnore]
         public bool IsFalling { get; private set; }
         #endregion
+
+        public void CheckSurroundings()
+        {
+            checkSurroundings++;
+        }
 
         public override Actor Owner { get => base.Owner; protected set {
                 base.Owner = value;
@@ -31,7 +37,13 @@ namespace GameData.ActorComponents
             RockFalling = content.Load<Song>("Sounds/RockHittingGround");
             StartedFalling += GravityComponent_StartedFalling;
             StoppedFalling += GravityComponent_StoppedFalling;
+            base.ActionPerformed += GravityComponent_ActionPerformed;
             base.Initialize(content, owner);
+        }
+
+        private void GravityComponent_ActionPerformed(object sender, EventArgs e)
+        {
+            checkSurroundings++;
         }
 
         public override void Update(GameTime gameTime)
@@ -42,7 +54,7 @@ namespace GameData.ActorComponents
                 if (checkSurroundings != 0)
                 {
                     checkSurroundings--;
-                    Owner.Neighbours.Where(x => x.HasComponent<GravityComponent>()).ToList().ForEach(x => x.GetComponent<GravityComponent>().TryMove());
+                    TryMove();
                 }
             }
             checkedInCurrentTick = false;
@@ -63,7 +75,7 @@ namespace GameData.ActorComponents
 
         private void Owner_MapStarted(object sender, EventArgs e)
         {
-            base.checkSurroundings++;
+            checkSurroundings++;
         }
 
         public void TryMove()
