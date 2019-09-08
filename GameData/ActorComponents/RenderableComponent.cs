@@ -23,13 +23,18 @@ namespace GameData.ActorComponents
         public override void Initialize(ContentManager content, Actor actor)
         {
             base.Initialize(content, actor);
+            Owner.PositionChanged += Owner_PositionChanged;
             actorTexture = content.Load<Texture2D>(ResourcePath);
             actorRectangle = new Rectangle(Owner.Position.ToPoint(), Owner.Size.ToPoint());
         }
 
-        public override void Update(GameTime gameTime)
+        private void Owner_PositionChanged(object sender, System.EventArgs e)
         {
             actorRectangle.Location = Owner.Position.ToPoint();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
             base.Update(gameTime);
         }
 

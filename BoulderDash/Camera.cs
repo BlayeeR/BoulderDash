@@ -91,27 +91,28 @@ namespace BoulderDash
             float delta = 1;
             if (gameTime !=null)
                  delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (focus.Position.X < DeadZone.X)
+
+            if (focus.Position.X < DeadZone.X)//left side of map(left deadzone)
                 position.X = DeadZone.X + focusSize.X;
-            else if (focus.Position.X > MapSize.X - DeadZone.X - focusSize.X)
+            else if (focus.Position.X > MapSize.X - DeadZone.X - focusSize.X)//right side of map(right deadzone)
                 position.X = MapSize.X - DeadZone.X - focusSize.X;
-            else if (focus.Position.X == MapSize.X - DeadZone.X - focusSize.X)
+            else if (focus.Position.X == MapSize.X - DeadZone.X - focusSize.X)//edge of right deadzone
                 position.X += (Focus.Position.X - Position.X) * MoveSpeed * delta;
-            else if (focus.Position.X == deadZone.X)
+            else if (focus.Position.X == deadZone.X)//edge of left deadzone
                 position.X += ((Focus.Position.X + focusSize.X) - Position.X) * MoveSpeed * delta;
-            else
+            else//middle of map
                 position.X += ((Focus.Position.X + (focusSize.X / 2)) - Position.X) * MoveSpeed * delta;
 
 
-            if (focus.Position.Y < DeadZone.Y )
+            if (focus.Position.Y < DeadZone.Y )//top side of map(top deadzone)
                 position.Y = DeadZone.Y + focusSize.Y;
-            else if (focus.Position.Y > MapSize.Y - DeadZone.Y - focusSize.Y)
+            else if (focus.Position.Y > MapSize.Y - DeadZone.Y - focusSize.Y)//bottom side of map(bottom deadzone
                 position.Y = MapSize.Y - DeadZone.Y - focusSize.Y;
-            else if (focus.Position.Y == MapSize.Y - DeadZone.Y - focusSize.Y)
+            else if (focus.Position.Y == MapSize.Y - DeadZone.Y - focusSize.Y)//edge of bottom deadzone
                 position.Y += (Focus.Position.Y - Position.Y) * MoveSpeed * delta;
-            else if (focus.Position.Y <= DeadZone.Y)
+            else if (focus.Position.Y == DeadZone.Y)//edge of top deadzone
                 position.Y += ((Focus.Position.Y + focusSize.Y) - Position.Y) * MoveSpeed * delta;
-            else
+            else//middle of map
                 position.Y += ((Focus.Position.Y + (focusSize.Y / 2)) - Position.Y) * MoveSpeed * delta;
         }
 
@@ -144,7 +145,7 @@ namespace BoulderDash
         public override void Update(GameTime gameTime)
         {
             Transform = Matrix.Identity *
-                        Matrix.CreateTranslation(-Position.X, -Position.Y, 0) *
+                        Matrix.CreateTranslation(-(int)Position.X, -(int)Position.Y, 0) *
                         Matrix.CreateRotationZ(Rotation) *
                         Matrix.CreateTranslation(Origin.X, Origin.Y, 0) *
                         Matrix.CreateScale(new Vector3(Scale, Scale, Scale));

@@ -59,7 +59,7 @@ namespace BoulderDash.Scenes
             spriteBatch.End();
 
             game.GraphicsDevice.SetRenderTargets(temp);
-            game.GraphicsDevice.Clear(Color.Black);
+            game.GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             spriteBatch.Draw(guiWindow, new Rectangle(0, 0, (int)game.GetScaledResolution().X, (int)(game.GetScaledResolution().Y*guiSize)), Color.White);
             spriteBatch.Draw(mapWindow, new Rectangle(0, (int)(game.GetScaledResolution().Y * guiSize), (int)game.GetScaledResolution().X, (int)(game.GetScaledResolution().Y*(1-guiSize))), Color.White);
@@ -68,9 +68,9 @@ namespace BoulderDash.Scenes
 
         public void Update(GameTime gameTime)
         {
-            Camera.Update(gameTime);
-            map.Update(gameTime);
             guiText.Update(gameTime);
+            map.Update(gameTime);
+            Camera.Update(gameTime);
             timer = (timer >= 100) ? 0 : timer + gameTime.ElapsedGameTime.TotalMilliseconds;
             if (timer == 0)
             {
