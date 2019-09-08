@@ -90,12 +90,12 @@ namespace GameData.ActorComponents
                         //check neighbour in bottom left
                         temp = Owner.CloseNeighbours.Where(y => y.Position.X == Owner.Position.X - Owner.Size.X && y.Position.Y == Owner.Position.Y + Owner.Size.Y).FirstOrDefault();
                         //if there is any try to move left
-                        if (!((temp == null || temp.IsPlayer) && MoveLeft()))
+                        if (!(temp == null && MoveLeft()))
                         {//cant move left, entity in the way
                          //check right bottom
                             temp = Owner.CloseNeighbours.Where(y => y.Position.X == Owner.Position.X + Owner.Size.X && y.Position.Y == Owner.Position.Y + Owner.Size.Y).FirstOrDefault();
                             //empty, //try move
-                            if (!((temp == null || temp.IsPlayer) && MoveRight()))
+                            if (!(temp == null && MoveRight()))
                             {
                                 if (IsFalling)
                                     StoppedFalling?.Invoke(Owner, null);
