@@ -15,5 +15,6 @@ namespace BoulderDash.Scenes
 {
     public interface IScene : IComponent
     {
+        void UpdateOrientation();
     }
 }

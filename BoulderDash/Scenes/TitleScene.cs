@@ -23,12 +23,15 @@ namespace BoulderDash.Scenes
         private Image logo;
         private Text levelText, caveText, levelNumber, caveNumber, playText;
         private Song theme;
-        private int currentLevel = 0, currentCave = 0;
-        private string[] levels = { "1", "2", "3", "4", "5" }, caves = { "Intro", "Rooms", "Maze" };//,       "Butterflies",
-                                                                    //"Guards" };//,     "Firefly dens", "Amoeba",     "Enchanted wall",
-                                                                    //"Greed",      "Tracks",       "Crowd",      "Walls",\
-                                                                    //"Apocalypse", "Zigzag",       "Funnel",     "Enchanted boxes",
-                                                                    //"Interval 1", "Interval 2", "Interval 3", "Interval 4"};
+        private readonly int currentLevel = 0;
+        private int currentCave = 0;
+        private readonly string[] levels = { "1", "2", "3", "4", "5" };
+        private string[] caves = { "Intro", "Rooms", "Maze" };
+
+        //"Guards" };//,     "Firefly dens", "Amoeba",     "Enchanted wall",
+        //"Greed",      "Tracks",       "Crowd",      "Walls",\
+        //"Apocalypse", "Zigzag",       "Funnel",     "Enchanted boxes",
+        //"Interval 1", "Interval 2", "Interval 3", "Interval 4"};
         private Game1 game;
 
         public TitleScene(Game1 game)
@@ -129,6 +132,18 @@ namespace BoulderDash.Scenes
             caveText.Update(gameTime);
             caveNumber.Update(gameTime);
             playText.Update(gameTime);
+        }
+
+        public void UpdateOrientation()
+        {
+            float x = (int)game.GetScaledResolution().X, y = (int)game.GetScaledResolution().Y;
+            levelText.Position = new Vector2((x - (levelText.Size.X + levelNumber.Size.X)) / 2, y * 0.72f);
+            levelNumber.Position = new Vector2(levelText.Position.X + levelText.Size.X, levelText.Position.Y);
+            caveText.Position = new Vector2((x - (caveText.Size.X + caveNumber.Size.X)) / 2, y * 0.82f);
+            caveNumber.Position = new Vector2(caveText.Position.X + caveText.Size.X, caveText.Position.Y);
+            playText.Position = new Vector2((x - playText.Size.X) / 2, y * 0.92f);
+            logo.Position = new Vector2(x * 0.1f, 0);
+            logo.Size = new Vector2(x * 0.8f, y * 0.8f);
         }
     }
 }

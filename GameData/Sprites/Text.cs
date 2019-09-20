@@ -149,5 +149,5 @@ namespace GameData.Sprites
         {
             return (new Rectangle(Position.ToPoint(), Size.ToPoint())).Contains(point);
         }
-    }
+   }
 }

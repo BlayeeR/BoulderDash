@@ -59,6 +59,14 @@ namespace BoulderDash.Scenes
             }
         }
 
+        public void UpdateSceneOrientation()
+        {
+            if (scenes.Count > 0)
+            {
+                scenes.Peek().UpdateOrientation();
+            }
+        }
+
         public void ClearScenes()
         {
             while (scenes.Count > 0)

@@ -22,12 +22,8 @@ namespace BoulderDash
     {
         #region Fields
         private Vector2 position;
-        protected float viewportHeight;
-        protected float viewportWidth;
         private IFocusable focus;
-        private Vector2 deadZone;
         private Vector2 focusSize;
-        private Vector2 screenCenter;
         private float scale;
         #endregion
 
@@ -43,30 +39,11 @@ namespace BoulderDash
             {
                 scale = value;
             } }
-        public Vector2 ScreenCenter
-        {
-            get => screenCenter; protected set
-            {
-                screenCenter = value;
-                //if (Game.Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Game.Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
-                    screenCenter = new Vector2(screenCenter.X > screenCenter.Y ? screenCenter.X : screenCenter.Y, screenCenter.X > screenCenter.Y ? screenCenter.Y : screenCenter.X);
-                //else
-                //    screenCenter = new Vector2(screenCenter.X > screenCenter.Y ? screenCenter.Y : screenCenter.X, screenCenter.X > screenCenter.Y ? screenCenter.X : screenCenter.Y);
-            }
-        }
+        public Vector2 ScreenCenter { get; set; }
         public Matrix Transform { get; set; }
         public Vector2 MapSize { get; set; }
-        public Vector2 DeadZone
-        {
-            get => new Vector2((float)Math.Round(deadZone.X / focusSize.X / Scale) * focusSize.X, (float)Math.Round(deadZone.Y / focusSize.Y / Scale) * focusSize.Y); set
-            {
-                deadZone = value;
-                //if (Game.Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Game.Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
-                    deadZone = new Vector2(deadZone.X > deadZone.Y ? deadZone.X : deadZone.Y, deadZone.X > deadZone.Y ? deadZone.Y : deadZone.X);
-                //else
-                //    deadZone = new Vector2(deadZone.X > deadZone.Y ? deadZone.Y : deadZone.X, deadZone.X > deadZone.Y ? deadZone.X : deadZone.Y);
-            }
-        }
+        public Vector2 DeadZone { get; private set; }
+        public Vector2 Viewport { get; set; }
         public IFocusable Focus
         {
             get { return focus; }
@@ -79,11 +56,10 @@ namespace BoulderDash
         public float MoveSpeed { get; set; }
         #endregion
 
-        public Camera2D(Game1 game, Vector2 dimensions)
+        public Camera2D(Game1 game, Vector2 viewport)
             : base(game)
         {
-            viewportWidth = dimensions.X;
-            viewportHeight = dimensions.Y;
+            Viewport = viewport;
         }
 
         private void UpdatePosition(GameTime gameTime = null)
@@ -98,7 +74,7 @@ namespace BoulderDash
                 position.X = MapSize.X - DeadZone.X - focusSize.X;
             else if (focus.Position.X == MapSize.X - DeadZone.X - focusSize.X)//edge of right deadzone
                 position.X += (Focus.Position.X - Position.X) * MoveSpeed * delta;
-            else if (focus.Position.X == deadZone.X)//edge of left deadzone
+            else if (focus.Position.X == DeadZone.X)//edge of left deadzone
                 position.X += ((Focus.Position.X + focusSize.X) - Position.X) * MoveSpeed * delta;
             else//middle of map
                 position.X += ((Focus.Position.X + (focusSize.X / 2)) - Position.X) * MoveSpeed * delta;
@@ -118,8 +94,8 @@ namespace BoulderDash
 
         public override void Initialize()
         {
-            ScreenCenter = new Vector2((float)Math.Round(viewportWidth / 2), (float)Math.Round(viewportHeight / 2));
-            //Game.Window.OrientationChanged += Window_OrientationChanged;
+            ScreenCenter = new Vector2((float)Math.Round(Viewport.X / 2), (float)Math.Round(Viewport.Y / 2));
+            Game.Window.ClientSizeChanged += Window_ClientSizeChanged;
             Scale = 1;
             MoveSpeed = 10f;
             DeadZone = Vector2.Zero;
@@ -127,10 +103,10 @@ namespace BoulderDash
             base.Initialize();
         }
 
-        private void Window_OrientationChanged(object sender, System.EventArgs e)
+        private void Window_ClientSizeChanged(object sender, EventArgs e)
         {
-            DeadZone = deadZone;
-            ScreenCenter = screenCenter;
+            CalculateDeadZone(MapSize, focusSize);
+            CalculateScreenCenter();
             UpdatePosition();
         }
 
@@ -138,8 +114,13 @@ namespace BoulderDash
         {
             MapSize = mapSize;
             focusSize = tileSize;
-            DeadZone = new Vector2(((float)Math.Round(viewportWidth / focusSize.X / 2) - 1) * focusSize.X,
-                                   ((float)Math.Round(viewportHeight / focusSize.Y / 2) - 1) * focusSize.Y);
+            DeadZone = new Vector2(((float)Math.Round(Viewport.X / focusSize.X / 2) - 1) * focusSize.X,
+                                   ((float)Math.Round(Viewport.Y / focusSize.Y / 2) - 1) * focusSize.Y);
+        }
+
+        public void CalculateScreenCenter()
+        {
+            ScreenCenter = new Vector2((float)Math.Round(Viewport.X / 2), (float)Math.Round(Viewport.Y / 2));
         }
 
         public override void Update(GameTime gameTime)
@@ -152,11 +133,6 @@ namespace BoulderDash
 
             Origin = ScreenCenter / Scale;
 
-            //var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if (Focus.Position.X > DeadZone.X && Focus.Position.X < MapSize.X - DeadZone.X)
-            //    position.X += ((Focus.Position.X - (focusSize.X / 2)) - Position.X) * MoveSpeed * delta;
-            //if (Focus.Position.Y > DeadZone.Y && Focus.Position.Y < MapSize.Y - DeadZone.Y)
-            //    position.Y += ((Focus.Position.Y - (focusSize.Y / 2)) - Position.Y) * MoveSpeed * delta;
             UpdatePosition(gameTime);
 
             base.Update(gameTime);

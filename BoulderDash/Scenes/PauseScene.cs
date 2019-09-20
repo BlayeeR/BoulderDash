@@ -76,5 +76,11 @@ namespace BoulderDash.Scenes
             resumeText.Update(gameTime);
             mainMenuText.Update(gameTime);
         }
+
+        public void UpdateOrientation()
+        {
+            resumeText.Position = new Vector2(game.GetScaledResolution().X / 2 - resumeText.Size.X / 2, game.GetScaledResolution().Y * 0.3f);
+            mainMenuText.Position = new Vector2(game.GetScaledResolution().X / 2 - mainMenuText.Size.X / 2, game.GetScaledResolution().Y * 0.6f);
+        }
     }
 }

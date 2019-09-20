@@ -26,23 +26,13 @@ namespace BoulderDash
         private const int renderScreenHeight = 480;
         #endregion
 
-        #region Properties
-        public float AspectRatio
-        {
-            get
-            {
-                return (float)GraphicsDevice.PresentationParameters.BackBufferWidth / GraphicsDevice.PresentationParameters.BackBufferHeight;
-            }
-        }
-        #endregion
-
         public Vector2 GetScaledResolution()
         {
             var scaledHeight = (float)renderScreenHeight / renderScale;
-            if(AspectRatio<1f)
-                return new Vector2(AspectRatio * scaledHeight, scaledHeight);
+            if(GraphicsDevice.Viewport.AspectRatio<1f)
+                return new Vector2(GraphicsDevice.Viewport.AspectRatio * scaledHeight, scaledHeight);
             else
-                return new Vector2(scaledHeight, scaledHeight/AspectRatio);
+                return new Vector2(scaledHeight, scaledHeight/ GraphicsDevice.Viewport.AspectRatio);
         }
 
         public Game1()
@@ -50,24 +40,22 @@ namespace BoulderDash
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = true;
-            graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;// | DisplayOrientation.Portrait | DisplayOrientation.PortraitDown;
+            graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight | DisplayOrientation.Portrait | DisplayOrientation.PortraitDown;
             graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
             renderTarget = new RenderTarget2D(GraphicsDevice, (int)GetScaledResolution().X, (int)GetScaledResolution().Y);
-            //Window.OrientationChanged += Window_OrientationChanged;
+            Window.ClientSizeChanged += Window_ClientSizeChanged;
             base.Initialize();
         }
 
-        private void Window_OrientationChanged(object sender, EventArgs e)
+        private void Window_ClientSizeChanged(object sender, EventArgs e)
         {
-            float x = (int)GetScaledResolution().X, y = (int)GetScaledResolution().Y;
-            if(Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
-                renderTarget = new RenderTarget2D(GraphicsDevice, (int)(x > y ? x : y), (int)(x > y ? y : x));
-            else
-                renderTarget = new RenderTarget2D(GraphicsDevice, (int)(x > y ? y : x), (int)(x > y ? x : y));
+            renderTarget = new RenderTarget2D(GraphicsDevice, (int)GetScaledResolution().X, (int)GetScaledResolution().Y);
+            SceneManager.Instance.UpdateSceneOrientation();
+            InputManager.Instance.ScaledResolution = GetScaledResolution();
         }
 
         protected override void LoadContent()
@@ -103,7 +91,6 @@ namespace BoulderDash
                 RasterizerState.CullNone);
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Draw(renderTarget, new Rectangle(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight), Color.White);
-            //spriteBatch.Draw(renderTarget, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -26,13 +26,13 @@ namespace BoulderDash.Scenes
         public Camera2D Camera { get; private set; }
         private readonly Game1 game;
         private ActorMap map;
-        private readonly float guiSize = 0.0764f;
-        private readonly RenderTarget2D guiWindow;
-        private readonly RenderTarget2D mapWindow;
+        private float guiSize = 0.0764f;
+        private RenderTarget2D guiWindow;
+        private RenderTarget2D mapWindow;
         private ContentManager content;
         private double timer = 0;
         private Text guiText;
-        private int firstMap = 1;
+        private readonly int firstMap = 1;
 
         public MainScene(Game1 game, int mapID)
         {
@@ -146,6 +146,18 @@ namespace BoulderDash.Scenes
         {
             guiText.UnloadContent();
             map.UnloadContent();
+        }
+
+        public void UpdateOrientation()
+        {
+            if (game.Window.CurrentOrientation == DisplayOrientation.LandscapeLeft || game.Window.CurrentOrientation == DisplayOrientation.LandscapeRight)
+                guiSize = 0.0764f;
+            else
+                guiSize = 0.0912f;
+            //TODO: Add multiline text
+            guiWindow = new RenderTarget2D(game.GraphicsDevice, (int)game.GetScaledResolution().X, (int)(game.GetScaledResolution().Y * guiSize));
+            mapWindow = new RenderTarget2D(game.GraphicsDevice, (int)game.GetScaledResolution().X, (int)(game.GetScaledResolution().Y * (1 - guiSize)));
+            Camera.Viewport = new Vector2(mapWindow.Width, mapWindow.Height);
         }
     }
 }

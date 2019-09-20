@@ -77,5 +77,12 @@ namespace BoulderDash.Scenes
             mainMenuText.Update(gameTime);
             diedText.Update(gameTime);
         }
+
+        public void UpdateOrientation()
+        {
+            diedText.Position = new Vector2(game.GetScaledResolution().X / 2 - diedText.Size.X / 2, game.GetScaledResolution().Y * 0.25f);
+            scoreText.Position = new Vector2(game.GetScaledResolution().X / 2 - scoreText.Size.X / 2, game.GetScaledResolution().Y * 0.50f);
+            mainMenuText.Position = new Vector2(game.GetScaledResolution().X / 2 - mainMenuText.Size.X / 2, game.GetScaledResolution().Y * 0.75f);
+        }
     }
 }

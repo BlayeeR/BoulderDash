@@ -21,7 +21,7 @@ namespace BoulderDash.Scenes
     {
         public Text congratulationText, scoreText, mainMenuText;
         private Game1 game;
-        private int score;
+        private readonly int score;
         public EndingScene(Game1 game, int score)
         {
             this.game = game;
@@ -39,7 +39,7 @@ namespace BoulderDash.Scenes
 
         public void LoadContent(ContentManager content)
         {
-            congratulationText = new Text(Vector2.Zero, "Congratulations! Wou won!", Color.White);
+            congratulationText = new Text(Vector2.Zero, "Congratulations! You won!", Color.White);
             congratulationText.LoadContent(content);
             congratulationText.Position = new Vector2(game.GetScaledResolution().X / 2 - congratulationText.Size.X / 2, game.GetScaledResolution().Y * 0.25f);
             scoreText = new Text(Vector2.Zero, $"Your score: {score}", Color.White);
@@ -76,6 +76,13 @@ namespace BoulderDash.Scenes
             scoreText.Update(gameTime);
             mainMenuText.Update(gameTime);
             congratulationText.Update(gameTime);
+        }
+
+        public void UpdateOrientation()
+        {
+            congratulationText.Position = new Vector2(game.GetScaledResolution().X / 2 - congratulationText.Size.X / 2, game.GetScaledResolution().Y * 0.25f);
+            scoreText.Position = new Vector2(game.GetScaledResolution().X / 2 - scoreText.Size.X / 2, game.GetScaledResolution().Y * 0.50f);
+            mainMenuText.Position = new Vector2(game.GetScaledResolution().X / 2 - mainMenuText.Size.X / 2, game.GetScaledResolution().Y * 0.75f);
         }
     }
 }
